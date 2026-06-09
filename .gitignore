@@ -1,0 +1,76 @@
+# ==========================================
+# Unity プロジェクト用 .gitignore テンプレート
+# ==========================================
+# 【重要】このファイルはプロジェクトのルート（Assetsフォルダがある階層）に配置してください。
+# Gitは「#」から始まる行を無視するため、このコメント付きのまま使用できます。
+
+# --- 1. Unityが自動生成するキャッシュ・一時フォルダ ---
+# これらは各自のPC環境に合わせて自動生成されるデータです。
+# 共有すると環境が破壊されたり、無駄な大容量通信が発生するため絶対に除外します。
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# --- 2. 容量が巨大、または機密情報を含むデータ ---
+# メモリキャプチャ（PCの内部情報が含まれる可能性があり、かつ巨大なため除外）
+/[Mm]emoryCaptures/
+# 録画データ（容量制限を圧迫するため除外）
+/[Rr]ecordings/
+
+# --- 3. プラグイン関連 ---
+# Asset Store Toolsの除外（もし除外したい場合は下の行の # を消してください）
+# /[Aa]ssets/AssetStoreTools*
+
+# JetBrains Rider用プラグイン（自動生成されるため除外）
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# --- 4. 各種エディタの個人設定ファイル・キャッシュ ---
+# Visual StudioやRiderなどの設定ファイルです。
+# 他人のエディタ設定が上書きされるのを防ぐため、Gitの管理から外します。
+.vs/
+.gradle/
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# --- 5. 一時ファイルに対して生成された不要な .meta ファイル ---
+# ※注意: アセット（画像やスクリプト）の .meta はチーム開発で【必須】ですが、
+# 以下は一時ファイル（バグチェック用データ等）の .meta なので除外します。
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# --- 6. クラッシュレポート・ログ関連 ---
+# エラー時に生成される個人のログファイルなので共有不要です。
+sysinfo.txt
+crashlytics-build.properties
+
+# --- 7. ビルドの成果物（完成品） ---
+# アプリの完成品は容量が大きいため、GitではなくGoogleドライブ等で共有します。
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# --- 8. Addressables（アセット管理システム）の一時データ ---
+# パッケージによって自動生成されるキャッシュデータのため除外します。
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*

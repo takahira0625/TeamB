@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6df00c2c66ddd84b92deb980ba3b239, type: 3}
+  m_Name: SwordParams
+  m_EditorClassIdentifier: Assembly-CSharp::SwordParams
+  startAngle: 60
+  endAngle: -120
+  swingDuration: 0.12
+  returnDuration: 0.18
+  stages:
+  - chargeTime: 0
+    reach: 1
+    knockback: 6
+  - chargeTime: 0.4
+    reach: 1.4
+    knockback: 11
+  - chargeTime: 0.8
+    reach: 1.9
+    knockback: 18
+  upwardBias: 1
+  tipperRatio: 0.9
+  tipperKnockbackMul: 1.8

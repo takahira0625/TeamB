@@ -1,0 +1,63 @@
+# ==============================================
+# Unity プロジェクト用 .gitattributes テンプレート
+# ==============================================
+# 【重要】このファイルはプロジェクトのルート（.gitignoreと同じ階層）に配置してください。
+
+# --- 1. 改行コードの自動変換（Windows / Mac 混在対策） ---
+# Windows(CRLF)とMac(LF)の違いによる不要なコンフリクトを防ぐため、
+# Gitが自動で改行コードを吸収するように設定します。
+* text=auto
+
+# --- 2. 明示的にテキストとして扱うファイル ---
+# プログラムや設定ファイルなど、Git上で差分（どこが書き換わったか）を
+# 正しく追跡・表示させたいものを指定します。
+*.cs text diff=csharp
+*.cginc text
+*.shader text
+*.txt text
+*.json text
+*.xml text
+*.md text
+
+# --- 3. バイナリとして扱うファイル（差分比較をしないもの） ---
+# 画像、音声、3Dモデルなどのデータは、文字の差分として比較できないため、
+# 「binary（バイナリ）」として指定し、Gitが無理やりテキストとして読み込むのを防ぎます。
+# （これを忘れるとファイルが破損したり、Gitの動作が極端に重くなったりします）
+
+# [画像・テクスチャ類]
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.tga binary
+*.tif binary
+*.tiff binary
+*.bmp binary
+*.psd binary
+
+# [音声類]
+*.wav binary
+*.ogg binary
+*.mp3 binary
+*.aif binary
+
+# [3Dモデル類]
+*.fbx binary
+*.obj binary
+*.blend binary
+*.max binary
+
+# [圧縮ファイル類]
+*.zip binary
+*.7z binary
+*.rar binary
+
+# --- 4. Git LFS (Large File Storage) 用 ---
+# 数GB単位の重い素材をGit LFSで管理
+# ※GitHubの無料枠（通信量1GB/月）を超過しない運用ルールを決めてから使用すること！
+
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.fbx filter=lfs diff=lfs merge=lfs -text
