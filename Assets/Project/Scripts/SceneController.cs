@@ -4,12 +4,6 @@ using UnityEngine.SceneManagement;  // シーン遷移を使うために追加
 // ボタンが押されたらゲームのシーンに戻すスクリプト
 public class SceneController : MonoBehaviour
 {
-    // ゲーム開始時に一度だけ呼び出される関数
-    void Start()
-    {
-
-    }
-
     // ボタンから呼び出すための関数
     public void LoadGameScene()
     {

@@ -29,7 +29,10 @@ public class SwordSwing : MonoBehaviour
     private void Awake()
     {
         // 未指定なら子の剣スプライトを自動で拾う
-        if (swordSprite == null) swordSprite = GetComponentInChildren<SpriteRenderer>();
+        if (swordSprite == null)
+        {
+            swordSprite = GetComponentInChildren<SpriteRenderer>();
+        }
         baseScale = transform.localScale;   // リーチ1.0の基準サイズを記録
         rb = GetComponent<Rigidbody2D>();
     }
@@ -51,7 +54,10 @@ public class SwordSwing : MonoBehaviour
     /// <summary>外から振らせる。動作中は無視。</summary>
     public void Swing()
     {
-        if (!isSwinging) StartCoroutine(SwingRoutine());
+        if (!isSwinging)
+        {
+            StartCoroutine(SwingRoutine());
+        }
     }
 
     private IEnumerator SwingRoutine()
@@ -87,6 +93,9 @@ public class SwordSwing : MonoBehaviour
 
     private void SetVisible(bool visible)
     {
-        if (swordSprite != null) swordSprite.enabled = visible;
+        if (swordSprite != null)
+        {
+            swordSprite.enabled = visible;
+        }
     }
 }

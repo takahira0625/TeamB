@@ -33,11 +33,24 @@ public class SwordHitbox : MonoBehaviour
 
     private void Awake()
     {
-        if (swing == null) swing = GetComponentInParent<SwordSwing>();
-        if (hitCollider == null) hitCollider = GetComponentInChildren<Collider2D>();
-        if (attackOrigin == null) attackOrigin = transform;
+        if (swing == null)
+        {
+            swing = GetComponentInParent<SwordSwing>();
+        }
+        if (hitCollider == null)
+        {
+            hitCollider = GetComponentInChildren<Collider2D>();
+        }
+        if (attackOrigin == null)
+        {
+            attackOrigin = transform;
+        }
 
-        if (hitCollider != null) hitCollider.enabled = false;  // 通常時は判定オフ
+        // 通常時は判定オフ
+        if (hitCollider != null)
+        {
+            hitCollider.enabled = false;
+        }
     }
 
     private void Update()
@@ -45,20 +58,34 @@ public class SwordHitbox : MonoBehaviour
         bool attacking = swing != null && swing.IsAttacking;
 
         // 攻撃中だけ剣の判定を有効化する
-        if (hitCollider != null) hitCollider.enabled = attacking;
+        if (hitCollider != null)
+        {
+            hitCollider.enabled = attacking;
+        }
 
         // 振り始めの瞬間にヒット済みリストをリセット(1振りで同じ敵は1回だけ)
-        if (attacking && !wasAttacking) hitThisSwing.Clear();
+        if (attacking && !wasAttacking)
+        {
+            hitThisSwing.Clear();
+        }
         wasAttacking = attacking;
     }
 
     // 攻撃中、剣のトリガーに敵が触れたら呼ばれる
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (swing == null || !swing.IsAttacking) return;  // 念のため攻撃中以外は無視
+        // 念のため攻撃中以外は無視
+        if (swing == null || !swing.IsAttacking)
+        {
+            return;
+        }
 
+        // 1振りで同じ敵を二重にヒットさせない
         var target = other.GetComponentInParent<Knockbackable>();
-        if (target == null || hitThisSwing.Contains(target)) return;
+        if (target == null || hitThisSwing.Contains(target))
+        {
+            return;
+        }
         hitThisSwing.Add(target);
 
         // 先端ヒットなら倍率をかける
@@ -67,25 +94,38 @@ public class SwordHitbox : MonoBehaviour
 
         // プレイヤーと反対方向(横)へ。必要なら上成分を足す。
         float sign = Mathf.Sign(other.transform.position.x - attackOrigin.position.x);
-        if (sign == 0f) sign = 1f;
+        if (sign == 0f)
+        {
+            sign = 1f;
+        }
         Vector2 dir = new Vector2(sign, param.upwardBias).normalized;
 
         target.ApplyKnockback(dir * force);
 
         // ★確認用ログ。判定が合っているか確かめたら消してOK。
         //   ここが演出(ヒットストップ・白フラッシュ)を足す場所になる。
-        if (tipper) Debug.Log("切先ヒット！(tipper)");
+        if (tipper)
+        {
+            Debug.Log("切先ヒット！(tipper)");
+        }
     }
 
     /// <summary>敵が剣のどこで当たったか。握りからの距離÷剣の長さがしきい値以上なら先端。</summary>
     private bool IsTipper(Collider2D enemy)
     {
-        if (bladeTip == null) return false;            // 目印未設定なら常に通常ヒット
+        // 目印未設定なら常に通常ヒット
+        if (bladeTip == null)
+        {
+            return false;
+        }
 
         Vector2 grip = transform.position;             // SwordPivotの原点=握り
         Vector2 blade = (Vector2)bladeTip.position - grip;
         float length = blade.magnitude;
-        if (length < 0.0001f) return false;
+        if (length < 0.0001f)
+        {
+            return false;
+        }
 
         // 敵の中心を「握り→剣先」方向へ射影した距離を、剣の長さで割る
         float along = Vector2.Dot((Vector2)enemy.bounds.center - grip, blade.normalized);

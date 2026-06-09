@@ -24,8 +24,14 @@ public class SwordCharge : MonoBehaviour
 
     private void Awake()
     {
-        if (swing == null) swing = GetComponent<SwordSwing>();
-        if (hitbox == null) hitbox = GetComponent<SwordHitbox>();
+        if (swing == null)
+        {
+            swing = GetComponent<SwordSwing>();
+        }
+        if (hitbox == null)
+        {
+            hitbox = GetComponent<SwordHitbox>();
+        }
     }
 
     private void Update()
@@ -61,9 +67,18 @@ public class SwordCharge : MonoBehaviour
         var stage = param.stages[EvaluateLevel(chargeTimer)];
 
         // 段階に応じて各担当へ値を渡してから振らせる
-        if (swing != null) swing.SetReach(stage.reach);
-        if (hitbox != null) hitbox.SetKnockback(stage.knockback);
-        if (swing != null) swing.Swing();
+        if (swing != null)
+        {
+            swing.SetReach(stage.reach);
+        }
+        if (hitbox != null)
+        {
+            hitbox.SetKnockback(stage.knockback);
+        }
+        if (swing != null)
+        {
+            swing.Swing();
+        }
     }
 
     /// <summary>溜め時間から段階を決める。chargeTimeは到達に必要な累積秒。</summary>
@@ -71,7 +86,12 @@ public class SwordCharge : MonoBehaviour
     {
         int level = 0;
         for (int i = 0; i < param.stages.Length; i++)
-            if (t >= param.stages[i].chargeTime) level = i;
+        {
+            if (t >= param.stages[i].chargeTime)
+            {
+                level = i;
+            }
+        }
         return level;
     }
 }
