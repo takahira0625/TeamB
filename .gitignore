@@ -74,3 +74,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# --- 9. Claude Code（AIアシスタント）関連 ---
+# 各自のClaude Code設定・キャッシュ・メモリは個人環境のものなので除外します。
+.claude/
+CLAUDE.md
+CLAUDE.local.md
