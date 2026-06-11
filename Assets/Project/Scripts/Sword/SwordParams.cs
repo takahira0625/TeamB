@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// 剣の調整パラメータ(筋肉)をプログラム(骨)から分離して持つScriptableObject。
-/// Projectで右クリック → Create → Kissaki → SwordParams で作り、
+/// Projectで右クリック → Create → Params → SwordParams で作り、
 /// SwordSwing / SwordCharge / SwordHitbox に同じアセットを割り当てる。
 /// 再生中でもInspectorから調整できる。
 /// </summary>
