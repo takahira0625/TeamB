@@ -828,10 +828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a42f6c92ea1b74b8eac34eb6e7296a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwordSwing
-  startAngle: 60
-  endAngle: -120
-  swingDuration: 0.12
-  returnDuration: 0.18
+  param: {fileID: 11400000, guid: 416f5b831f300934fa81f1bc486c3f08, type: 2}
   swordSprite: {fileID: 0}
 --- !u!50 &1832533434
 Rigidbody2D:
@@ -872,18 +869,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c7d59a106acbc4088415c82c11c05c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwordHitbox
+  param: {fileID: 11400000, guid: 416f5b831f300934fa81f1bc486c3f08, type: 2}
   swing: {fileID: 0}
   hitbox: {fileID: 0}
-  stages:
-  - chargeTime: 0
-    reach: 1
-    knockback: 6
-  - chargeTime: 0.35
-    reach: 1.4
-    knockback: 11
-  - chargeTime: 0.8
-    reach: 1.9
-    knockback: 18
 --- !u!114 &1832533437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,14 +884,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bb01712371b754b9b6efa011f54819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwordHitbox
+  param: {fileID: 11400000, guid: 416f5b831f300934fa81f1bc486c3f08, type: 2}
   swing: {fileID: 0}
   hitCollider: {fileID: 0}
   attackOrigin: {fileID: 0}
-  knockbackForce: 8
-  upwardBias: 1
   bladeTip: {fileID: 1812903229}
-  tipperRatio: 0.8
-  tipperKnockbackMul: 1.8
 --- !u!1 &2117339096
 GameObject:
   m_ObjectHideFlags: 0
