@@ -80,3 +80,4 @@ crashlytics-build.properties
 .claude/
 CLAUDE.md
 CLAUDE.local.md
+.mcp.json
