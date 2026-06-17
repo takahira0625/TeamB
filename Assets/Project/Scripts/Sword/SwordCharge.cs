@@ -74,6 +74,7 @@ public class SwordCharge : MonoBehaviour
         if (hitbox != null)
         {
             hitbox.SetKnockback(stage.knockback);
+            hitbox.SetChargeStage(EvaluateLevel(chargeTimer));
         }
         if (swing != null)
         {

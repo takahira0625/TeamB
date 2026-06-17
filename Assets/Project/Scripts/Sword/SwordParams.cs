@@ -18,6 +18,8 @@ public class SwordParams : ScriptableObject
         public float reach = 1f;
         [Tooltip("ぶっ飛ばしの強さ")]
         public float knockback = 6f;
+        [Tooltip("この段階で与えるダメージ量")]
+        public int damage = 10;
     }
 
     [Header("振り")]
@@ -33,9 +35,9 @@ public class SwordParams : ScriptableObject
     [Header("チャージ段階 (弱 → 中 → 最大)")]
     public ChargeStage[] stages =
     {
-        new ChargeStage { chargeTime = 0f,   reach = 1.0f, knockback = 6f },
-        new ChargeStage { chargeTime = 0.35f, reach = 1.4f, knockback = 11f },
-        new ChargeStage { chargeTime = 0.8f, reach = 1.9f, knockback = 18f },
+        new ChargeStage { chargeTime = 0f,    reach = 1.0f, knockback = 6f,  damage = 10 },
+        new ChargeStage { chargeTime = 0.35f, reach = 1.4f, knockback = 11f, damage = 20 },
+        new ChargeStage { chargeTime = 0.8f,  reach = 1.9f, knockback = 18f, damage = 35 },
     };
 
     [Header("ぶっ飛ばし")]
@@ -48,4 +50,6 @@ public class SwordParams : ScriptableObject
     public float tipperRatio = 0.8f;
     [Tooltip("先端ヒット時のぶっ飛ばし倍率")]
     public float tipperKnockbackMul = 1.8f;
+    [Tooltip("先端ヒット時のダメージ倍率(ノックバック倍率とは独立)")]
+    public float tipperDamageMul = 1.5f;
 }
