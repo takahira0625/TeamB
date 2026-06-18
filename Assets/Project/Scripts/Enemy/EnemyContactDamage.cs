@@ -16,7 +16,7 @@ public class EnemyContactDamage : MonoBehaviour
 
         if (!collision.gameObject.CompareTag("Player")) return;
 
-        var health = collision.gameObject.GetComponent<Health>();
+        var health = collision.gameObject.GetComponentInParent<Health>();
         if (health == null) return;
 
         health.TakeDamage(contactDamage);
