@@ -85,3 +85,9 @@ CLAUDE.local.md
 # --- 10. 設計書の叩き台（ローカル作業用） ---
 # docs/ は各自のローカルでMD叩き台を作る作業フォルダなので除外します。
 /docs/
+# VS Code 個人設定
+.vscode/
+
+# Unity が自動生成する復旧用ファイル
+Assets/_Recovery/
+Assets/_Recovery.meta

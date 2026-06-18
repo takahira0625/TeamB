@@ -64,7 +64,10 @@ public class SwordCharge : MonoBehaviour
     private void Release()
     {
         isCharging = false;
-        var stage = param.stages[EvaluateLevel(chargeTimer)];
+
+        // 段階を1回だけ判定して使い回す
+        int level = EvaluateLevel(chargeTimer);
+        var stage = param.stages[level];
 
         // 段階に応じて各担当へ値を渡してから振らせる
         if (swing != null)
@@ -74,6 +77,7 @@ public class SwordCharge : MonoBehaviour
         if (hitbox != null)
         {
             hitbox.SetKnockback(stage.knockback);
+            hitbox.SetChargeStage(level);   // ← stage と必ず同じ段階になる
         }
         if (swing != null)
         {

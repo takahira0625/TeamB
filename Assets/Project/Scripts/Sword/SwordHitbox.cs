@@ -22,6 +22,7 @@ public class SwordHitbox : MonoBehaviour
     [SerializeField] private Transform bladeTip;
 
     private float knockbackForce;   // チャージ段階に応じてSwordChargeが設定する実行値
+    private int chargeStage;        // チャージ段階。SwordChargeがSetChargeStageで設定する
     private readonly HashSet<Knockbackable> hitThisSwing = new();
     private bool wasAttacking;
 
@@ -30,6 +31,15 @@ public class SwordHitbox : MonoBehaviour
     {
         knockbackForce = force;
     }
+
+    /// <summary>チャージ段階を設定する(SwordChargeが振る直前に渡す)。</summary>
+    public void SetChargeStage(int stage)
+    {
+        chargeStage = stage;
+    }
+
+    /// <summary>現在のチャージ段階(0〜)。白フラッシュ等の演出コンポーネントが参照する。</summary>
+    public int CurrentChargeStage => chargeStage;
 
     private void Awake()
     {
@@ -88,7 +98,7 @@ public class SwordHitbox : MonoBehaviour
         }
         hitThisSwing.Add(target);
 
-        // 先端ヒットなら倍率をかける
+        // 先端ヒットなら倍率をかける(ノックバックとダメージは独立した倍率)
         bool tipper = IsTipper(other);
         float force = knockbackForce * (tipper ? param.tipperKnockbackMul : 1f);
 
@@ -102,11 +112,21 @@ public class SwordHitbox : MonoBehaviour
 
         target.ApplyKnockback(dir * force);
 
-        // ★確認用ログ。判定が合っているか確かめたら消してOK。
-        //   ここが演出(ヒットストップ・白フラッシュ)を足す場所になる。
+        // ダメージ付与(チャージ段階 + tipper補正)
+        var health = target.GetComponent<Health>();
+        if (health != null)
+        {
+            int baseDamage = param.stages[chargeStage].damage;
+            int damage = tipper ? Mathf.RoundToInt(baseDamage * param.tipperDamageMul) : baseDamage;
+            health.TakeDamage(damage);
+        }
+
+        // ★ここが演出(ヒットストップ・白フラッシュ)を足す場所になる。
+        //   白フラッシュ担当: CurrentChargeStage と tipper の両方を参照できる。
         if (tipper)
         {
-            Debug.Log("切先ヒット！(tipper)");
+            string hpLog = health != null ? $" → {health.gameObject.name} HP: {health.CurrentHp}/{health.MaxHp}" : "";
+            Debug.Log($"切先ヒット！(tipper){hpLog}");
         }
     }
 
