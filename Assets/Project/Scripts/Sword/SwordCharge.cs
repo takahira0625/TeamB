@@ -22,6 +22,34 @@ public class SwordCharge : MonoBehaviour
     /// <summary>現在のチャージ段階(0〜)。チャージUI等が参照できる。</summary>
     public int CurrentLevel { get; private set; }
 
+    /// <summary>
+    /// 現在のチャージ段階内での進捗(0〜1)。チャージバーをなめらかに伸ばすための読み取り専用値。
+    /// 非チャージ中は0、最大段階まで溜まっていれば1を返す。値は変化させず計算して返すだけ。
+    /// </summary>
+    public float ChargeProgress01
+    {
+        get
+        {
+            // チャージしていない、またはparam未設定なら進捗なし
+            if (!isCharging || param == null || param.stages.Length == 0)
+            {
+                return 0f;
+            }
+
+            // 最大段階まで溜まっていれば、これ以上の区間はないので1
+            int maxIndex = param.stages.Length - 1;
+            if (CurrentLevel >= maxIndex)
+            {
+                return 1f;
+            }
+
+            // 現在段階の到達時間〜次段階の到達時間を 0〜1 に正規化して返す
+            float current = param.stages[CurrentLevel].chargeTime;
+            float next = param.stages[CurrentLevel + 1].chargeTime;
+            return Mathf.InverseLerp(current, next, chargeTimer);
+        }
+    }
+
     private void Awake()
     {
         if (swing == null)
