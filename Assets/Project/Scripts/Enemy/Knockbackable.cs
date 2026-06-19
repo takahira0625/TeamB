@@ -16,6 +16,9 @@ public class Knockbackable : MonoBehaviour
     // スタン中に前進を止める相手。未設定なら同じオブジェクトから自動取得
     [SerializeField] private EnemyMovement enemyMovement;
 
+    // 撃破済みか判定するためのHP。未設定なら同じオブジェクトから自動取得
+    [SerializeField] private Health health;
+
     private Rigidbody2D rb;
 
     // 進行中のスタンコルーチン。連続ヒット時にタイマーをリセットするため保持する
@@ -29,6 +32,11 @@ public class Knockbackable : MonoBehaviour
         if (enemyMovement == null)
         {
             enemyMovement = GetComponent<EnemyMovement>();
+        }
+
+        if (health == null)
+        {
+            health = GetComponent<Health>();
         }
     }
 
@@ -63,8 +71,13 @@ public class Knockbackable : MonoBehaviour
     {
         yield return new WaitForSeconds(stunDuration);
 
-        // TODO: Health.cs 実装後、ここで health.IsDead を確認し、
-        //       死亡していたら再開しないガードを入れる（死んだ敵の前進復活を防ぐ）。
+        // 撃破済み(HP0)なら前進を復活させない。死んだ敵が動き出すのを防ぐ
+        if (health != null && health.IsDead)
+        {
+            stunCoroutine = null;
+            yield break;
+        }
+
         enemyMovement.enabled = true;
         stunCoroutine = null;
     }
