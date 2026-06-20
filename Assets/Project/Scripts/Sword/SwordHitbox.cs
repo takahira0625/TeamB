@@ -41,6 +41,14 @@ public class SwordHitbox : MonoBehaviour
     /// <summary>現在のチャージ段階(0〜)。白フラッシュ等の演出コンポーネントが参照する。</summary>
     public int CurrentChargeStage => chargeStage;
 
+    /// <summary>
+    /// ヒットの瞬間に1回だけ発火する手応えイベント。引数=(チャージ段階, 先端tipper可否)。
+    /// ヒットストップ・カメラ揺れ・段階別SEがこれを購読する(宣言・発火の正本はこのクラス)。
+    /// ※白フラッシュは購読せず、SwordHitboxから対象敵を直接呼ぶ別経路。
+    /// 購読側はOnDestroyで必ず購読解除(-=)すること。
+    /// </summary>
+    public event System.Action<int, bool> OnHit;
+
     private void Awake()
     {
         if (swing == null)
@@ -121,8 +129,11 @@ public class SwordHitbox : MonoBehaviour
             health.TakeDamage(damage);
         }
 
-        // ★ここが演出(ヒットストップ・白フラッシュ)を足す場所になる。
-        //   白フラッシュ担当: CurrentChargeStage と tipper の両方を参照できる。
+        // 手応えイベントを1回だけ発火する(全ヒット共通)。
+        // ヒットストップ・カメラ揺れ・段階別SE がこれを購読する。
+        // ※白フラッシュは購読せず、段階×先端を見てSwordHitboxから対象敵を直接呼ぶ別経路。
+        OnHit?.Invoke(chargeStage, tipper);
+
         if (tipper)
         {
             string hpLog = health != null ? $" → {health.gameObject.name} HP: {health.CurrentHp}/{health.MaxHp}" : "";

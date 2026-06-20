@@ -52,4 +52,12 @@ public class SwordParams : ScriptableObject
     public float tipperKnockbackMul = 1.8f;
     [Tooltip("先端ヒット時のダメージ倍率(ノックバック倍率とは独立)")]
     public float tipperDamageMul = 1.5f;
+
+    [Header("ヒットストップ")]
+    [Tooltip("段階別が無い場合に使う基本停止フレーム数(60fps換算)")]
+    public int baseStopFrames = 3;
+    [Tooltip("段階ごとの停止フレーム数。stagesと添字を合わせる(弱 → 中 → 最大)")]
+    public int[] stopFramesPerStage = { 2, 5, 10 };
+    [Tooltip("先端ヒット時に停止フレームへかける倍率(目安 1.5〜2.0)")]
+    public float tipperStopMul = 1.8f;
 }
