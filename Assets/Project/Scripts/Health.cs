@@ -23,6 +23,7 @@ public class Health : MonoBehaviour
     private void Awake()
     {
         CurrentHp = maxHp;
+        OnHpChanged?.Invoke(CurrentHp, maxHp); // 初期化直後に一度発火し、購読側に初期HP状態を通知する
     }
 
     /// <summary>ダメージを受ける。HPは0未満にならない。死亡時はOnDiedを1度だけ発火する。</summary>
