@@ -134,10 +134,13 @@ public class SwordHitbox : MonoBehaviour
         // ※白フラッシュは購読せず、段階×先端を見てSwordHitboxから対象敵を直接呼ぶ別経路。
         OnHit?.Invoke(chargeStage, tipper);
 
-        if (tipper)
+        // クリティカル＝最大チャージ段階 × 先端ヒットのときだけ、当たった敵を一瞬白く発光させる。
+        // 「最大溜め×完璧な間合い」に予約した最高の報酬。段階1・2の先端は倍率とSEで報いる。
+        // 最大段階の添字はstages.Length - 1で求める(2のハードコードはしない)。
+        bool isCrit = tipper && chargeStage == param.stages.Length - 1;
+        if (isCrit)
         {
-            string hpLog = health != null ? $" → {health.gameObject.name} HP: {health.CurrentHp}/{health.MaxHp}" : "";
-            Debug.Log($"切先ヒット！(tipper){hpLog}");
+            target.GetComponent<WhiteFlash>()?.Flash();
         }
     }
 
