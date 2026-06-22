@@ -35,9 +35,9 @@ public class SwordParams : ScriptableObject
     [Header("チャージ段階 (弱 → 中 → 最大)")]
     public ChargeStage[] stages =
     {
-        new ChargeStage { chargeTime = 0f,    reach = 1.0f, knockback = 6f,  damage = 10 },
-        new ChargeStage { chargeTime = 0.35f, reach = 1.4f, knockback = 11f, damage = 20 },
-        new ChargeStage { chargeTime = 0.8f,  reach = 1.9f, knockback = 18f, damage = 35 },
+        new ChargeStage { chargeTime = 0f,   reach = 1.0f, knockback = 6f,  damage = 10 },
+        new ChargeStage { chargeTime = 0.7f, reach = 1.4f, knockback = 11f, damage = 20 },
+        new ChargeStage { chargeTime = 1.6f, reach = 1.9f, knockback = 18f, damage = 35 },
     };
 
     [Header("ぶっ飛ばし")]

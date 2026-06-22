@@ -20,10 +20,10 @@ MonoBehaviour:
   - chargeTime: 0
     reach: 1
     knockback: 6
-  - chargeTime: 0.4
+  - chargeTime: 0.8
     reach: 1.4
     knockback: 11
-  - chargeTime: 0.8
+  - chargeTime: 1.6
     reach: 1.9
     knockback: 18
   upwardBias: 1
