@@ -13,6 +13,8 @@ public class EnemyDeath : MonoBehaviour
     [SerializeField] private EnemyMovement enemyMovement;
     [SerializeField] private EnemyContactDamage enemyContactDamage;
     [SerializeField] private Health health;
+    // 移動アニメ用のAnimator。撃破時に止めないと毎フレーム歩行絵でSpriteを上書きし、撃破絵が表示されない
+    [SerializeField] private Animator animator;
 
     [Header("撃破演出")]
     // 仮素材差し替え箇所：岡本納品前は色違いスプライト等の仮素材で代用可。未設定なら差し替えをスキップする
@@ -33,6 +35,7 @@ public class EnemyDeath : MonoBehaviour
         if (enemyMovement == null) enemyMovement = GetComponent<EnemyMovement>();
         if (enemyContactDamage == null) enemyContactDamage = GetComponent<EnemyContactDamage>();
         if (health == null) health = GetComponent<Health>();
+        if (animator == null) animator = GetComponentInChildren<Animator>();
 
         health.OnDied += OnEnemyDied;
     }
@@ -51,6 +54,8 @@ public class EnemyDeath : MonoBehaviour
         // ※EnemyContactDamage側にも enabled を見るガードがあるため、ここで止めれば物理コールバックも無害化される
         if (enemyMovement != null) enemyMovement.enabled = false;
         if (enemyContactDamage != null) enemyContactDamage.enabled = false;
+        // Animatorを止めないと歩行アニメがSpriteを上書きし続け、下のdeathSprite差し替えが見えない
+        if (animator != null) animator.enabled = false;
 
         // OnDiedはTakeDamage（剣の当たり判定の流れ）の中で呼ばれるため、その場で即Destroyしない。
         // 差し替え→表示待ち→Destroyはコルーチンに乗せて次フレーム以降に回す。
