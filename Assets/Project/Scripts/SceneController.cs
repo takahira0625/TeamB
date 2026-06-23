@@ -8,6 +8,28 @@ public class SceneController : MonoBehaviour
     public void LoadGameScene()
     {
         // ゲーム本編のシーンを読み込む
+        Time.timeScale = 1;
         SceneManager.LoadScene("Stage1Scene");
+    }
+
+    public void LoadTitle()
+    {
+        // タイトルシーンを読み込む
+        Time.timeScale = 1;
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void LoadGoal()
+    {
+        // ゴールシーンを読み込む
+        Time.timeScale = 1;
+        SceneManager.LoadScene("GoalScene");
+    }
+
+    public void LoadGameOver()
+    {
+        // ゲームオーバーシーンを読み込む
+        Time.timeScale = 1;
+        SceneManager.LoadScene("GameOverScene");
     }
 }
