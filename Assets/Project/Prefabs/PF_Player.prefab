@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7448062457667650575}
   - component: {fileID: 8888888888888888888}
   - component: {fileID: 1953442396367793377}
+  - component: {fileID: 8354277616400513561}
   m_Layer: 7
   m_Name: PF_Player
   m_TagString: Player
@@ -221,6 +222,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8354277616400513561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463603461805280627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2913ffed5e95a7d419762f47f00fd490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerChargeAnimator
+  idleAnimator: {fileID: 0}
+  bodyRenderer: {fileID: 0}
+  swordCharge: {fileID: 0}
+  swordSwing: {fileID: 0}
+  stages:
+  - intro: {fileID: 21300000, guid: 36842a37fa6534d4a835a9e31a077bb4, type: 3}
+    loop:
+    - {fileID: 21300000, guid: 6184560a2c4f96a4f883243d8579b93d, type: 3}
+    - {fileID: 21300000, guid: f142bc2573c32a345a9a3ef2409dfa4f, type: 3}
+  - intro: {fileID: 21300000, guid: 0d5e9f82198eaec4b959973ba524fb3a, type: 3}
+    loop:
+    - {fileID: 21300000, guid: 9d04e6120d6fcdf41b853486434d9c3d, type: 3}
+    - {fileID: 21300000, guid: 02b81c574dfdae743a258b0f3538e36b, type: 3}
+  - intro: {fileID: 21300000, guid: a7b1dc707e91da34598f16df9650cd19, type: 3}
+    loop:
+    - {fileID: 21300000, guid: a96ba458ca964c44a829c1865e448f56, type: 3}
+    - {fileID: 21300000, guid: a38f58a3650feeb42a7ec403b5fc8264, type: 3}
+  framesPerSecond: 8
+  introDuration: 0.1
 --- !u!1 &2055649688639960857
 GameObject:
   m_ObjectHideFlags: 0
