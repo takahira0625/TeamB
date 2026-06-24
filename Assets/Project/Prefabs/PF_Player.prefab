@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8888888888888888888}
   - component: {fileID: 1953442396367793377}
   - component: {fileID: 8354277616400513561}
+  - component: {fileID: 6224050681784724332}
   m_Layer: 7
   m_Name: PF_Player
   m_TagString: Player
@@ -253,6 +254,22 @@ MonoBehaviour:
     - {fileID: 21300000, guid: a38f58a3650feeb42a7ec403b5fc8264, type: 3}
   framesPerSecond: 8
   introDuration: 0.1
+--- !u!114 &6224050681784724332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463603461805280627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd37ba2d611ee4faeb64a5df7809339d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInvincibility
+  health: {fileID: 0}
+  targetSpriteRenderer: {fileID: 0}
+  invincibleDuration: 1.5
+  blinkInterval: 0.1
 --- !u!1 &2055649688639960857
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +329,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 85f3308f4fe2a42848679c7d7b333bd1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
