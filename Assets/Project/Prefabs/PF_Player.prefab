@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1953442396367793377}
   - component: {fileID: 8354277616400513561}
   - component: {fileID: 6224050681784724332}
+  - component: {fileID: 5079952636846476690}
   m_Layer: 7
   m_Name: PF_Player
   m_TagString: Player
@@ -270,6 +271,19 @@ MonoBehaviour:
   targetSpriteRenderer: {fileID: 0}
   invincibleDuration: 1.5
   blinkInterval: 0.1
+--- !u!114 &5079952636846476690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463603461805280627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3cb02292824c749952096a2631cf5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInvincibilityPassthrough
+  invincibility: {fileID: 0}
 --- !u!1 &2055649688639960857
 GameObject:
   m_ObjectHideFlags: 0
