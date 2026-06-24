@@ -550,7 +550,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e6e139168a4d9b4fbcc9e17db4a12ce, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameOverController2
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverController
   health: {fileID: 7566996799740864545}
   sceneController: {fileID: 970956576}
   playerMovement: {fileID: 7566996799740864544}
