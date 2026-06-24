@@ -25,15 +25,10 @@ public class WhiteFlash : MonoBehaviour
     [Tooltip("白→元に戻るまでの時間(秒)")]
     [SerializeField] private float flashDuration = 0.08f;
 
-    // 元のマテリアル(Awakeでキャッシュ)。Flash後に必ずここへ戻す。
     private Material originalMaterial;
-    // このコンポーネント専用に生成するフラッシュ用マテリアル。OnDestroyで破棄する。
     private Material flashMaterial;
-
-    // 走行中のFlashコルーチン。多重呼び出し時に止めて引き直すため保持する。
     private Coroutine flashRoutine;
 
-    // シェーダープロパティ名のID(毎回文字列照合しないようキャッシュ)
     private static readonly int FlashColorId = Shader.PropertyToID("_FlashColor");
     private static readonly int FlashAmountId = Shader.PropertyToID("_FlashAmount");
 
@@ -43,22 +38,14 @@ public class WhiteFlash : MonoBehaviour
     private void Awake()
     {
         if (spriteRenderer == null)
-        {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        }
+
         if (flashShader == null)
-        {
             flashShader = Shader.Find("Custom/SpriteFlash");
-        }
 
         if (spriteRenderer != null)
         {
-            // 元のマテリアルを覚えておく(Flash後に必ず戻すため)。
-            // sharedMaterialで読むのは、materialで読むとUnityが複製を作ってバッチングが切れるため。
             originalMaterial = spriteRenderer.sharedMaterial;
-
-            // フラッシュ用マテリアルを自分専用に1つ作る。スプライトのテクスチャは
-            // SpriteRendererが_MainTexへ自動で渡すので、ここでは色と強さだけ設定する。
             if (flashShader != null)
             {
                 flashMaterial = new Material(flashShader);
@@ -69,49 +56,44 @@ public class WhiteFlash : MonoBehaviour
 
     private void OnDestroy()
     {
-        // 自分で生成したマテリアルは自分で破棄する(リーク防止)
         if (flashMaterial != null)
-        {
             Destroy(flashMaterial);
-        }
     }
 
     /// <summary>
-    /// 即座に白発光を開始する。多重呼び出しは走行中コルーチンを止めて引き直す。
-    /// SwordHitboxがクリティカル(段階3×先端)時に直接呼ぶ。
+    /// 既定の強さ（flashAmount）で発光。SwordHitbox がクリティカル時に呼ぶ。
     /// </summary>
     public void Flash()
     {
-        if (spriteRenderer == null || flashMaterial == null)
-        {
-            return;
-        }
+        Flash(flashAmount);
+    }
 
-        // すでに光っている最中なら止めて引き直す(常に元のマテリアルへ戻し切る)
+    /// <summary>
+    /// 強さを指定して発光。EnemyHitFeedback が被弾時に 0.25 で呼ぶ。
+    /// </summary>
+    public void Flash(float amount)
+    {
+        if (spriteRenderer == null || flashMaterial == null) return;
+
         if (flashRoutine != null)
         {
             StopCoroutine(flashRoutine);
             Restore();
         }
-        flashRoutine = StartCoroutine(FlashRoutine());
+        flashRoutine = StartCoroutine(FlashRoutine(amount));
     }
 
-    private IEnumerator FlashRoutine()
+    private IEnumerator FlashRoutine(float amount)
     {
         IsFlashing = true;
-
-        // フラッシュ用マテリアルへ差し替え、白の強さを設定する
-        flashMaterial.SetFloat(FlashAmountId, flashAmount);
+        flashMaterial.SetFloat(FlashAmountId, amount);
         spriteRenderer.material = flashMaterial;
-
         yield return new WaitForSeconds(flashDuration);
-
         Restore();
         flashRoutine = null;
         IsFlashing = false;
     }
 
-    // 元のマテリアルへ戻す
     private void Restore()
     {
         spriteRenderer.material = originalMaterial;
