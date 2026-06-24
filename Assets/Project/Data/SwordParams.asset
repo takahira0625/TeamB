@@ -20,12 +20,19 @@ MonoBehaviour:
   - chargeTime: 0
     reach: 1
     knockback: 6
-  - chargeTime: 0.8
+    damage: 10
+  - chargeTime: 0.4
     reach: 1.4
     knockback: 11
-  - chargeTime: 1.6
+    damage: 20
+  - chargeTime: 0.8
     reach: 1.9
     knockback: 18
+    damage: 35
   upwardBias: 1
   tipperRatio: 0.9
   tipperKnockbackMul: 1.8
+  tipperDamageMul: 1.5
+  baseStopFrames: 3
+  stopFramesPerStage: 02000000050000000a000000
+  tipperStopMul: 2
