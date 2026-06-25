@@ -509,26 +509,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1011142043 stripped
+--- !u!1 &998870237
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 463603461805280627, guid: 477ddf679646401438ce5e257bc65715, type: 3}
-  m_PrefabInstance: {fileID: 7566996799740864542}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1011142050
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 998870240}
+  - component: {fileID: 998870239}
+  - component: {fileID: 998870238}
+  m_Layer: 0
+  m_Name: GameOverController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &998870238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011142043}
+  m_GameObject: {fileID: 998870237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98afadcd5b29844b0bb700ab9d04d8b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 459051cbb09ee2f4d96ff88ee14bb616, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LeftEdgeBlocker
-  targetCamera: {fileID: 0}
-  leftOffsetFromCenter: 0.22
-  edgePadding: 0.3
+  m_EditorClassIdentifier: Assembly-CSharp::SceneController
+--- !u!114 &998870239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998870237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e6e139168a4d9b4fbcc9e17db4a12ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverController
+  health: {fileID: 7566996799740864545}
+  sceneController: {fileID: 970956576}
+  playerMovement: {fileID: 7566996799740864544}
+  swordCharge: {fileID: 7566996799740864543}
+  delaySeconds: 0.7
+--- !u!4 &998870240
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998870237}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 67.43274, y: 5.06157, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1413879641
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +583,7 @@ GameObject:
   - component: {fileID: 1413879644}
   - component: {fileID: 1413879643}
   - component: {fileID: 1413879642}
+  - component: {fileID: 1413879646}
   m_Layer: 0
   m_Name: Goal
   m_TagString: Untagged
@@ -676,11 +719,33 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1413879646
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413879641}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2cfb110f0a24f664ba25db9b4f603d40, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1955743801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,11 +1190,41 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 463603461805280627, guid: 477ddf679646401438ce5e257bc65715, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1011142050}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 477ddf679646401438ce5e257bc65715, type: 3}
+--- !u!114 &7566996799740864543 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 180852914757000309, guid: 477ddf679646401438ce5e257bc65715, type: 3}
+  m_PrefabInstance: {fileID: 7566996799740864542}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c7d59a106acbc4088415c82c11c05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwordHitbox
+--- !u!114 &7566996799740864544 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8688809558336546756, guid: 477ddf679646401438ce5e257bc65715, type: 3}
+  m_PrefabInstance: {fileID: 7566996799740864542}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8678ee583d5be1e4e90f14f693eb0268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+--- !u!114 &7566996799740864545 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8888888888888888888, guid: 477ddf679646401438ce5e257bc65715, type: 3}
+  m_PrefabInstance: {fileID: 7566996799740864542}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d4e5f607182930a1b2c3d4e5f60718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1144,3 +1239,4 @@ SceneRoots:
   - {fileID: 1955743803}
   - {fileID: 1413879645}
   - {fileID: 970956577}
+  - {fileID: 998870240}
