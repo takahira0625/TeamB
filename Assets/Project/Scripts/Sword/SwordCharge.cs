@@ -43,6 +43,19 @@ public class SwordCharge : MonoBehaviour
         }
     }
 
+    /// <summary>最大段階まで溜まっているか。最大ため演出(プレイヤー点滅など)が参照する。</summary>
+    public bool IsMaxCharged
+    {
+        get
+        {
+            if (!isCharging || param == null || param.stages.Length == 0)
+            {
+                return false;
+            }
+            return CurrentLevel >= param.stages.Length - 1;
+        }
+    }
+
     private void Awake()
     {
         if (swing == null)

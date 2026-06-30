@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 6224050681784724332}
   - component: {fileID: 5079952636846476690}
   - component: {fileID: 7219774135491268195}
+  - component: {fileID: 1111111111111111111}
+  - component: {fileID: 2222222222222222222}
   m_Layer: 7
   m_Name: PF_Player
   m_TagString: Player
@@ -1128,3 +1130,35 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1111111111111111111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463603461805280627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 391582c07f8042618719524b210b7b17, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::WhiteFlash
+  spriteRenderer: {fileID: 2188237601264883756}
+  flashShader: {fileID: 4800000, guid: 322d78b66ad64225a4d584fc7bfaf341, type: 3}
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashAmount: 0.6
+  flashDuration: 0.08
+--- !u!114 &2222222222222222222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463603461805280627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 339b91d587d345a3a63dbf6281cf6e04, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMaxChargeBlink
+  swordCharge: {fileID: 180852914757000309}
+  whiteFlash: {fileID: 1111111111111111111}
+  blinkInterval: 0.16
