@@ -15,12 +15,12 @@ public class EnemyDeath : MonoBehaviour
     [SerializeField] private Health health;
     // 移動アニメ用のAnimator。撃破時に止めないと毎フレーム歩行絵でSpriteを上書きし、撃破絵が表示されない
     [SerializeField] private Animator animator;
+    // 調整値をまとめたEnemyParamsアセット（撃破絵の表示時間）
+    [SerializeField] private EnemyParams param;
 
     [Header("撃破演出")]
     // 仮素材差し替え箇所：岡本納品前は色違いスプライト等の仮素材で代用可。未設定なら差し替えをスキップする
     [SerializeField] private Sprite deathSprite;
-    [Tooltip("撃破絵を表示してから消滅するまでの秒数（目安0.1〜0.3）")]
-    [SerializeField] private float displayDuration = 0.2f;
     [Tooltip("撃破時に自分の位置へInstantiateするエフェクト（任意）")]
     [SerializeField] private GameObject deathEffect;
     // 仮素材差し替え箇所：平岡納品前は仮音で代用可。未設定なら再生をスキップする
@@ -64,6 +64,9 @@ public class EnemyDeath : MonoBehaviour
 
     private IEnumerator DeathSequence()
     {
+        // 撃破処理は必ず消滅させたいので、EnemyParams未割当でも保険値(0.2秒)で続行する
+        float displayDuration = param != null ? param.deathDisplayDuration : 0.2f;
+
         if (spriteRenderer != null && deathSprite != null)
         {
             spriteRenderer.sprite = deathSprite;
