@@ -80,12 +80,20 @@ public class SwordCharge : MonoBehaviour
         {
             isCharging = true;
             chargeTimer = 0f;
+            CurrentLevel = 0;   // 溜め始めは段階0に戻す(前回の値が残らないように)
         }
 
         if (isCharging && Input.GetMouseButton(0))
         {
             chargeTimer += Time.deltaTime;
             CurrentLevel = EvaluateLevel(chargeTimer);
+
+            // チャージ中は剣を表示し、溜めの進み(0〜1)に応じて少し振りかぶる。
+            // 全体進捗は既存のChargeProgress01を使う(段階でリセットされず滑らか)。
+            if (swing != null)
+            {
+                swing.ShowChargePose(ChargeProgress01);
+            }
         }
 
         if (isCharging && Input.GetMouseButtonUp(0))

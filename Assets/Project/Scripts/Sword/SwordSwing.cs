@@ -24,6 +24,9 @@ public class SwordSwing : MonoBehaviour
     private Vector3 baseScale;
     private Rigidbody2D rb;
 
+    // 今向いている角度。チャージで振りかぶった角度からそのまま振り下ろすために記録する
+    private float currentAngle;
+
     /// <summary>振り(攻撃判定が有効な区間)中ならtrue。SwordHitboxが参照する。</summary>
     public bool IsAttacking { get; private set; }
 
@@ -66,6 +69,25 @@ public class SwordSwing : MonoBehaviour
         transform.localScale = new Vector3(baseScale.x, baseScale.y * lengthMul, baseScale.z);
     }
 
+    /// <summary>
+    /// チャージ中の構え(振りかぶり)を見せる。SwordChargeが毎フレーム呼ぶ。
+    /// t01: チャージの進み具合(0〜1)。0で通常の構え、1で最大の振りかぶり。
+    /// </summary>
+    public void ShowChargePose(float t01)
+    {
+        // 振り中は振り側の表示を優先(触らない)
+        if (isSwinging)
+        {
+            return;
+        }
+
+        SetVisible(true);   // チャージ中は剣を見せる
+
+        // 構え角度 → 振りかぶり角度 へ、溜めの進みに応じて少し持ち上げる
+        float angle = Mathf.Lerp(param.startAngle, param.chargeAngle, Mathf.Clamp01(t01));
+        SetAngle(angle);
+    }
+
     /// <summary>外から振らせる。動作中は無視。</summary>
     public void Swing()
     {
@@ -80,10 +102,12 @@ public class SwordSwing : MonoBehaviour
         isSwinging = true;
         IsAttacking = true;                                        // 攻撃判定オン
         SetVisible(true);                                          // 振りの間だけ表示
-        yield return Rotate(param.startAngle, param.endAngle, param.swingDuration);   // 振り(速い)
+        // 振り出しは「今の角度」から。チャージで振りかぶっていればその角度から振り下ろす
+        yield return Rotate(currentAngle, param.endAngle, param.swingDuration);       // 振り(速い)
         IsAttacking = false;                                       // 攻撃判定オフ
         SetVisible(false);                                         // 振り終わりで隠す
         yield return Rotate(param.endAngle, param.startAngle, param.returnDuration);  // 戻し
+        SetAngle(param.startAngle);                                // 構えの角度に戻し切る
         isSwinging = false;
     }
 
@@ -95,14 +119,18 @@ public class SwordSwing : MonoBehaviour
             t += Time.fixedDeltaTime;
             float k = Mathf.Clamp01(t / duration);
             // 物理で回す。フレーム間の回転を物理が補間するのですり抜けない。
-            rb.MoveRotation(Mathf.Lerp(from, to, k));
+            float angle = Mathf.Lerp(from, to, k);
+            currentAngle = angle;   // 今の角度を覚える(振り下ろしの起点に使う)
+            rb.MoveRotation(angle);
             yield return new WaitForFixedUpdate();
         }
+        currentAngle = to;
         rb.MoveRotation(to);
     }
 
     private void SetAngle(float z)
     {
+        currentAngle = z;   // 今の角度を覚える
         transform.localRotation = Quaternion.Euler(0f, 0f, z);
     }
 
