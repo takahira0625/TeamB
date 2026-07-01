@@ -108,6 +108,8 @@ public class SwordHitbox : MonoBehaviour
 
         // 先端ヒットなら倍率をかける(ノックバックとダメージは独立した倍率)
         bool tipper = IsTipper(other);
+        // クリティカル＝最大チャージ段階 × 先端ヒット。メタル装甲判定と白フラッシュで共用する
+        bool isCrit = tipper && chargeStage == param.stages.Length - 1;
         float force = knockbackForce * (tipper ? param.tipperKnockbackMul : 1f);
 
         // プレイヤーと反対方向(横)へ。必要なら上成分を足す。
@@ -120,9 +122,14 @@ public class SwordHitbox : MonoBehaviour
 
         target.ApplyKnockback(dir * force);
 
-        // ダメージ付与(チャージ段階 + tipper補正)
+        // メタル装甲：クリティカル以外はダメージを弾く。ルールはMetalArmorが持つ＝ここは聞くだけ。
+        // ノックバックは上で適用済みなので、弾かれても怯む手応えは残る。
+        var armor = target.GetComponent<MetalArmor>();
+        bool damageBlocked = armor != null && armor.ShouldBlock(isCrit);
+
+        // ダメージ付与(チャージ段階 + tipper補正)。装甲に弾かれたら与えない
         var health = target.GetComponent<Health>();
-        if (health != null)
+        if (health != null && !damageBlocked)
         {
             int baseDamage = param.stages[chargeStage].damage;
             int damage = tipper ? Mathf.RoundToInt(baseDamage * param.tipperDamageMul) : baseDamage;
@@ -134,10 +141,8 @@ public class SwordHitbox : MonoBehaviour
         // ※白フラッシュは購読せず、段階×先端を見てSwordHitboxから対象敵を直接呼ぶ別経路。
         OnHit?.Invoke(chargeStage, tipper);
 
-        // クリティカル＝最大チャージ段階 × 先端ヒットのときだけ、当たった敵を一瞬白く発光させる。
+        // クリティカル(最大溜め×先端)のときだけ、当たった敵を一瞬白く発光させる。
         // 「最大溜め×完璧な間合い」に予約した最高の報酬。段階1・2の先端は倍率とSEで報いる。
-        // 最大段階の添字はstages.Length - 1で求める(2のハードコードはしない)。
-        bool isCrit = tipper && chargeStage == param.stages.Length - 1;
         if (isCrit)
         {
             target.GetComponent<WhiteFlash>()?.Flash();

@@ -127,7 +127,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &6846030407108223124
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -244,6 +244,7 @@ MonoBehaviour:
   enemyMovement: {fileID: 0}
   enemyContactDamage: {fileID: 0}
   health: {fileID: 0}
+  animator: {fileID: 0}
   deathSprite: {fileID: 21300000, guid: 5024c022cbc01784cabe4000bc8ae96c, type: 3}
   displayDuration: 1
   deathEffect: {fileID: 0}
@@ -301,11 +302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000000000000000002, guid: 47a5f742c955e4ef1f1badc89c51526a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000000000000000002, guid: 47a5f742c955e4ef1f1badc89c51526a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1.0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1000000000000000002, guid: 47a5f742c955e4ef1f1badc89c51526a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -326,6 +323,10 @@ PrefabInstance:
     - target: {fileID: 1000000000000000002, guid: 47a5f742c955e4ef1f1badc89c51526a, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000000000000000002, guid: 47a5f742c955e4ef1f1badc89c51526a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1000000000000000002, guid: 47a5f742c955e4ef1f1badc89c51526a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
