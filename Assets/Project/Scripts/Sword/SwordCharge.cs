@@ -88,10 +88,14 @@ public class SwordCharge : MonoBehaviour
             chargeTimer += Time.deltaTime;
             CurrentLevel = EvaluateLevel(chargeTimer);
 
-            // チャージ中は剣を表示し、溜めの進み(0〜1)に応じて少し振りかぶる。
-            // 全体進捗は既存のChargeProgress01を使う(段階でリセットされず滑らか)。
-            if (swing != null)
+            if (swing != null && param != null)
             {
+                // チャージ中の剣の大きさを、その段階の攻撃時リーチに合わせる
+                // （段階が上がるごとに大きく＝攻撃するときと同じ大きさで見せる）
+                swing.SetReach(param.stages[CurrentLevel].reach);
+
+                // 溜めの進み(0〜1)に応じて徐々に振りかぶる。
+                // 全体進捗は既存のChargeProgress01を使う(段階でリセットされず滑らか)。
                 swing.ShowChargePose(ChargeProgress01);
             }
         }
