@@ -16,23 +16,28 @@ MonoBehaviour:
   endAngle: -120
   swingDuration: 0.12
   returnDuration: 0.18
+  chargeAngle: 60
   stages:
   - chargeTime: 0
     reach: 1
-    knockback: 6
-    damage: 10
+    knockback: 3
+    damage: 5
   - chargeTime: 0.4
     reach: 1.4
-    knockback: 11
-    damage: 20
+    knockback: 10
+    damage: 15
   - chargeTime: 0.8
     reach: 1.9
-    knockback: 18
-    damage: 35
+    knockback: 14
+    damage: 30
   upwardBias: 1
-  tipperRatio: 0.9
+  tipperRatio: 0.8
   tipperKnockbackMul: 1.8
-  tipperDamageMul: 1.5
+  tipperDamageMul: 2
   baseStopFrames: 3
-  stopFramesPerStage: 02000000050000000a000000
+  stopFramesPerStage: 010000000600000010000000
   tipperStopMul: 2
+  maxFrameStep: 0.03
+  trailTime: 0.12
+  trailStartWidth: 0.25
+  trailEndWidth: 0

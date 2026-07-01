@@ -5,13 +5,9 @@ public class LeftEdgeBlocker : MonoBehaviour
     [SerializeField]
     private Camera targetCamera;
 
-    // プレイヤーの中心から、見た目の左端までの距離
+    // 調整値をまとめたCameraParamsアセット(左端オフセット・余白)
     [SerializeField]
-    private float leftOffsetFromCenter = 0.1f;
-
-    // 画面左端から少し余白を空けたい場合だけ使う
-    [SerializeField]
-    private float edgePadding = 0.0f;
+    private CameraParams param;
 
     private void Awake()
     {
@@ -23,7 +19,7 @@ public class LeftEdgeBlocker : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (targetCamera == null)
+        if (targetCamera == null || param == null)
         {
             return;
         }
@@ -45,7 +41,7 @@ public class LeftEdgeBlocker : MonoBehaviour
         );
 
         // プレイヤーの「中心座標」がこれより左に行かないようにする
-        float minCenterX = leftEdgeWorldPosition.x + leftOffsetFromCenter + edgePadding;
+        float minCenterX = leftEdgeWorldPosition.x + param.leftOffsetFromCenter + param.edgePadding;
 
         if (playerPosition.x < minCenterX)
         {

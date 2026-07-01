@@ -15,15 +15,8 @@ public class WhiteFlash : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [Tooltip("フラッシュ用シェーダー(Custom/SpriteFlash)。未指定ならShader.Findで探す")]
     [SerializeField] private Shader flashShader;
-
-    [Header("発光")]
-    [Tooltip("発光色（既定＝白）")]
-    [SerializeField] private Color flashColor = Color.white;
-    [Range(0f, 1f)]
-    [Tooltip("白の強さ。0=変化なし / 1=完全に発光色。0.6なら薄く白く、形は見える")]
-    [SerializeField] private float flashAmount = 0.6f;
-    [Tooltip("白→元に戻るまでの時間(秒)")]
-    [SerializeField] private float flashDuration = 0.08f;
+    [Tooltip("発光色・強さ・時間をまとめたFlashParamsアセット（敵用/プレイヤー用で別アセット可）")]
+    [SerializeField] private FlashParams param;
 
     // 元のマテリアル(Awakeでキャッシュ)。Flash後に必ずここへ戻す。
     private Material originalMaterial;
@@ -62,7 +55,10 @@ public class WhiteFlash : MonoBehaviour
             if (flashShader != null)
             {
                 flashMaterial = new Material(flashShader);
-                flashMaterial.SetColor(FlashColorId, flashColor);
+                if (param != null)
+                {
+                    flashMaterial.SetColor(FlashColorId, param.flashColor);
+                }
             }
         }
     }
@@ -82,7 +78,7 @@ public class WhiteFlash : MonoBehaviour
     /// </summary>
     public void Flash()
     {
-        if (spriteRenderer == null || flashMaterial == null)
+        if (spriteRenderer == null || flashMaterial == null || param == null)
         {
             return;
         }
@@ -101,10 +97,10 @@ public class WhiteFlash : MonoBehaviour
         IsFlashing = true;
 
         // フラッシュ用マテリアルへ差し替え、白の強さを設定する
-        flashMaterial.SetFloat(FlashAmountId, flashAmount);
+        flashMaterial.SetFloat(FlashAmountId, param.flashAmount);
         spriteRenderer.material = flashMaterial;
 
-        yield return new WaitForSeconds(flashDuration);
+        yield return new WaitForSeconds(param.flashDuration);
 
         Restore();
         flashRoutine = null;

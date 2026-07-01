@@ -10,8 +10,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Knockbackable : MonoBehaviour
 {
-    // 弾かれてから前進を再開するまでの秒数（手応えの調整軸。目安0.2〜0.4）
-    [SerializeField] private float stunDuration = 0.3f;
+    // 調整値をまとめたEnemyParamsアセット（スタン時間）
+    [SerializeField] private EnemyParams param;
 
     // スタン中に前進を止める相手。未設定なら同じオブジェクトから自動取得
     [SerializeField] private EnemyMovement enemyMovement;
@@ -55,7 +55,7 @@ public class Knockbackable : MonoBehaviour
     /// <summary>前進を止め、stunDuration後に再開するスタンを開始する。</summary>
     private void StartStun()
     {
-        if (enemyMovement == null) return;
+        if (enemyMovement == null || param == null) return;
 
         // 連続ヒット：進行中のスタンを止めてからタイマーを引き直す
         if (stunCoroutine != null)
@@ -69,7 +69,7 @@ public class Knockbackable : MonoBehaviour
 
     private IEnumerator StunRoutine()
     {
-        yield return new WaitForSeconds(stunDuration);
+        yield return new WaitForSeconds(param.stunDuration);
 
         // 撃破済み(HP0)なら前進を復活させない。死んだ敵が動き出すのを防ぐ
         if (health != null && health.IsDead)
