@@ -463,14 +463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShake
   hitbox: {fileID: 0}
-  amplitudeByLevel:
-  - 0.05
-  - 0.1
-  - 0.2
-  defaultAmplitude: 0.1
-  duration: 0.15
-  damping: 1
-  frequency: 25
+  param: {fileID: 11400000, guid: aff7aadda03dde1418f0d1867aef5e1d, type: 2}
 --- !u!1001 &520384591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -775,7 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be148e081e5849098f45eb36406b929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::cameramovement
-  scrollSpeed: 2
+  param: {fileID: 11400000, guid: aff7aadda03dde1418f0d1867aef5e1d, type: 2}
 --- !u!1 &970956575
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,7 +859,7 @@ MonoBehaviour:
   sceneController: {fileID: 970956576}
   playerMovement: {fileID: 7566996799740864544}
   swordCharge: {fileID: 7566996799740864543}
-  delaySeconds: 0.7
+  param: {fileID: 11400000, guid: aa642a336c1cd6b40b4b0976624850f4, type: 2}
 --- !u!4 &998870240
 Transform:
   m_ObjectHideFlags: 0

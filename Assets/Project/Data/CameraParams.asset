@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3acc8d21a95f10642b7175e6f68a1b03, type: 3}
+  m_Name: CameraParams
+  m_EditorClassIdentifier: Assembly-CSharp::CameraParams
+  scrollSpeed: 2
+  amplitudeByLevel:
+  - 0.05
+  - 0.1
+  - 0.2
+  defaultAmplitude: 0.1
+  shakeDuration: 0.15
+  shakeDamping: 1
+  shakeFrequency: 25
+  leftOffsetFromCenter: 0.1
+  edgePadding: 0
