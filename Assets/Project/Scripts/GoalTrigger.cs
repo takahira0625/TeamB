@@ -4,6 +4,8 @@ public class GoalTrigger : MonoBehaviour
 {
     public SceneController sceneController;
 
+    public ScreenFader screenFader;
+
     private bool isGoalReached = false;
 
     void Start() { }
@@ -21,10 +23,25 @@ public class GoalTrigger : MonoBehaviour
             // ゴールフラグをtrueにしてロックする
             isGoalReached = true;
 
-            // 3. 配線されたSceneControllerの「LoadGoal」メソッドを呼び出してシーンを切り替える
-            if (sceneController != null)
+            // フェードアウト
+            if (screenFader != null)
             {
-                sceneController.LoadGoal();
+                screenFader.FadeOut(() =>
+                {
+                    // 3. 配線されたSceneControllerの「LoadGoal」メソッドを呼び出してシーンを切り替える
+                    if (sceneController != null)
+                    {
+                        sceneController.LoadGoal();
+                    }
+                });
+            }
+
+            else
+            {
+                if (sceneController != null)
+                {
+                    sceneController.LoadGoal();
+                }
             }
         }
     }
