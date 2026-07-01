@@ -94,8 +94,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7049102167460960036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04553e20c428040daa77ad51db0984ba, type: 3}
-  m_Name: 
+  m_Script: {fileID: 11500000, guid: b92e72ee9a634485cb30ba02b60ce5f4, type: 3}
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
   dropPrefab: {fileID: 7897543584168156078, guid: 6df8860b838bb4882832601a372e5ba1, type: 3}
   dropOffset: {x: 0, y: 0}

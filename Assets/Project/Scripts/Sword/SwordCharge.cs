@@ -10,10 +10,8 @@ public class SwordCharge : MonoBehaviour
     [Header("参照")]
     [Tooltip("調整値をまとめたSwordParamsアセット")]
     [SerializeField] private SwordParams param;
-
     [Tooltip("未指定なら同じオブジェクトから取得")]
     [SerializeField] private SwordSwing swing;
-
     [SerializeField] private SwordHitbox hitbox;
 
     private bool isCharging;
@@ -21,7 +19,6 @@ public class SwordCharge : MonoBehaviour
 
     /// <summary>チャージ中ならtrue。移動側がこれを見て移動をロックできる。</summary>
     public bool IsCharging => isCharging;
-
     /// <summary>現在のチャージ段階(0〜)。チャージUI等が参照できる。</summary>
     public int CurrentLevel { get; private set; }
 
@@ -37,39 +34,11 @@ public class SwordCharge : MonoBehaviour
             {
                 return 0f;
             }
-
             float maxTime = param.stages[param.stages.Length - 1].chargeTime;
-
             if (maxTime <= 0f)
             {
                 return 1f;
             }
-
-            return Mathf.Clamp01(chargeTimer / maxTime);
-        }
-    }
-
-    /// <summary>
-    /// チャージ全体の進み具合(0〜1)。
-    /// 0で溜め始め、最大段階の到達時間で1。
-    /// 振りかぶり量に使う。
-    /// </summary>
-    public float ChargeOverall01
-    {
-        get
-        {
-            if (!isCharging || param == null || param.stages.Length == 0)
-            {
-                return 0f;
-            }
-
-            float maxTime = param.stages[param.stages.Length - 1].chargeTime;
-
-            if (maxTime <= 0f)
-            {
-                return 1f;
-            }
-
             return Mathf.Clamp01(chargeTimer / maxTime);
         }
     }
@@ -83,7 +52,6 @@ public class SwordCharge : MonoBehaviour
             {
                 return false;
             }
-
             return CurrentLevel >= param.stages.Length - 1;
         }
     }
@@ -94,7 +62,6 @@ public class SwordCharge : MonoBehaviour
         {
             swing = GetComponent<SwordSwing>();
         }
-
         if (hitbox == null)
         {
             hitbox = GetComponent<SwordHitbox>();
@@ -113,7 +80,7 @@ public class SwordCharge : MonoBehaviour
         {
             isCharging = true;
             chargeTimer = 0f;
-            CurrentLevel = 0;
+            CurrentLevel = 0;   // 溜め始めは段階0に戻す(前回の値が残らないように)
         }
 
         if (isCharging && Input.GetMouseButton(0))
@@ -121,9 +88,11 @@ public class SwordCharge : MonoBehaviour
             chargeTimer += Time.deltaTime;
             CurrentLevel = EvaluateLevel(chargeTimer);
 
+            // チャージ中は剣を表示し、溜めの進み(0〜1)に応じて少し振りかぶる。
+            // 全体進捗は既存のChargeProgress01を使う(段階でリセットされず滑らか)。
             if (swing != null)
             {
-                swing.ShowChargePose(ChargeOverall01);
+                swing.ShowChargePose(ChargeProgress01);
             }
         }
 
@@ -144,13 +113,11 @@ public class SwordCharge : MonoBehaviour
         {
             swing.SetReach(stage.reach);
         }
-
         if (hitbox != null)
         {
             hitbox.SetKnockback(stage.knockback);
             hitbox.SetChargeStage(level);
         }
-
         if (swing != null)
         {
             swing.Swing();
@@ -161,7 +128,6 @@ public class SwordCharge : MonoBehaviour
     private int EvaluateLevel(float t)
     {
         int level = 0;
-
         for (int i = 0; i < param.stages.Length; i++)
         {
             if (t >= param.stages[i].chargeTime)
@@ -169,7 +135,6 @@ public class SwordCharge : MonoBehaviour
                 level = i;
             }
         }
-
         return level;
     }
 }
