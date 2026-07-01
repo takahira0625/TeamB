@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3acc8d21a95f10642b7175e6f68a1b03, type: 3}
   m_Name: CameraParams
   m_EditorClassIdentifier: Assembly-CSharp::CameraParams
-  scrollSpeed: 2
+  scrollSpeed: 1
   amplitudeByLevel:
   - 0.05
   - 0.1
