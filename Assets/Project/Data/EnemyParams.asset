@@ -15,4 +15,4 @@ MonoBehaviour:
   moveSpeed: 2
   contactDamage: 10
   stunDuration: 0.3
-  deathDisplayDuration: 0.2
+  deathDisplayDuration: 1
