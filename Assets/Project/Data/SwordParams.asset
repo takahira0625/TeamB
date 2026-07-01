@@ -35,7 +35,7 @@ MonoBehaviour:
   tipperKnockbackMul: 1.8
   tipperDamageMul: 2
   baseStopFrames: 3
-  stopFramesPerStage: 02000000050000000a000000
+  stopFramesPerStage: 010000000600000010000000
   tipperStopMul: 2
   maxFrameStep: 0.03
   trailTime: 0.12
