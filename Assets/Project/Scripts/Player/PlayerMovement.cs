@@ -7,6 +7,10 @@ public class PlayerMovement : MonoBehaviour
     // 移動の速さ（publicにするとInspectorで変えられる）
     public float moveSpeed = 5f;
 
+    // チャージ中の移動速度の倍率（0=動けない、1=通常と同じ）。ゆっくり歩かせる
+    [Range(0f, 1f)]
+    public float chargeMoveMultiplier = 0.2f;
+
     // チャージ中かどうかを見るための剣のチャージ担当。
     // 未指定なら子オブジェクト(SwordPivot)から自動で取得する。
     [SerializeField] private SwordCharge swordCharge;
@@ -23,12 +27,6 @@ public class PlayerMovement : MonoBehaviour
     // ゲーム中、毎フレーム呼ばれる関数
     void Update()
     {
-        // チャージ中は移動を完全ロック（確定ルール）。何も動かさずに抜ける
-        if (swordCharge != null && swordCharge.IsCharging)
-        {
-            return;
-        }
-
         // A=-1、D=+1 を受け取る
         float move = 0f;
         if (Keyboard.current.aKey.isPressed)
@@ -40,7 +38,14 @@ public class PlayerMovement : MonoBehaviour
             move = 1f;
         }
 
+        // 今の移動速度を決める。チャージ中はゆっくり（倍率をかける）
+        float speed = moveSpeed;
+        if (swordCharge != null && swordCharge.IsCharging)
+        {
+            speed = moveSpeed * chargeMoveMultiplier;
+        }
+
         // 入力に応じて左右に動かす
-        transform.Translate(move * moveSpeed * Time.deltaTime, 0f, 0f);
+        transform.Translate(move * speed * Time.deltaTime, 0f, 0f);
     }
 }
