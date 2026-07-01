@@ -37,7 +37,7 @@ public class SceneController : MonoBehaviour
 
     public void ResumeGame()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = 1;
         pauseUI.SetActive(false);
     }
 }
