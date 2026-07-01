@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 7219774135491268195}
   - component: {fileID: 1111111111111111111}
   - component: {fileID: 2222222222222222222}
+  - component: {fileID: 3333333333333333333}
   m_Layer: 7
   m_Name: PF_Player
   m_TagString: Player
@@ -1162,3 +1163,71 @@ MonoBehaviour:
   swordCharge: {fileID: 180852914757000309}
   whiteFlash: {fileID: 1111111111111111111}
   blinkInterval: 0.16
+--- !u!114 &3333333333333333333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463603461805280627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b97fda26b94729a5fbd751058c6bb1, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerGoalAbsorb
+  absorbDuration: 1.2
+  orbitTurns: 1.5
+  radiusCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  selfSpinDegrees: 540
+  playerMovement: {fileID: 8688809558336546756}
+  swordCharge: {fileID: 180852914757000309}
+  rb: {fileID: 3993477671149487119}
+  spriteRenderer: {fileID: 2188237601264883756}
+  frontSortingOrder: 100
