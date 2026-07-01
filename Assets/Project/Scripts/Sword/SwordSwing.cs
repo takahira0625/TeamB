@@ -16,10 +16,6 @@ public class SwordSwing : MonoBehaviour
     [Tooltip("剣のスプライト。未指定なら子から自動取得する")]
     [SerializeField] private SpriteRenderer swordSprite;
 
-    [Header("処理落ち対策")]
-    [Tooltip("1フレームで進める物理時間の上限(秒)。重いフレームでも振りが1コマに圧縮されず弧が見えるようにする。小さいほど安定するが、重い時に一瞬スローになる")]
-    [SerializeField] private float maxFrameStep = 0.03f;
-
     private bool isSwinging;
     private Vector3 baseScale;
     private Rigidbody2D rb;
@@ -49,9 +45,9 @@ public class SwordSwing : MonoBehaviour
         // 振りが複数コマに分かれて弧として見えるようにする。
         // ※Time.maximumDeltaTimeはゲーム全体に効くグローバル設定。代償として、極端に重い
         //   フレームではゲーム全体が一瞬だけスローになる(単発ならほぼ気付かない)。
-        if (Time.maximumDeltaTime > maxFrameStep)
+        if (param != null && Time.maximumDeltaTime > param.maxFrameStep)
         {
-            Time.maximumDeltaTime = maxFrameStep;
+            Time.maximumDeltaTime = param.maxFrameStep;
         }
     }
 
