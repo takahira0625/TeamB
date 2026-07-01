@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be00dd3f4de292b4a8008de1234f64cc, type: 3}
   m_Name: PlayerHealth
   m_EditorClassIdentifier: Assembly-CSharp::HealthParams
-  maxHp: 100
+  maxHp: 60

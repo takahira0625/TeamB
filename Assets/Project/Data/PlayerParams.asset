@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerParams
   moveSpeed: 5
   chargeMoveMultiplier: 0.2
-  invincibleDuration: 1.5
+  invincibleDuration: 0.7
   invincibleBlinkInterval: 0.1
   maxChargeBlinkInterval: 0.16
   chargeAnimFramesPerSecond: 8
