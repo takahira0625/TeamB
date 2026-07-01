@@ -31,7 +31,7 @@ MonoBehaviour:
     knockback: 14
     damage: 30
   upwardBias: 0.9
-  tipperRatio: 0.8
+  tipperRatio: 0.7
   tipperKnockbackMul: 1.8
   tipperDamageMul: 2
   baseStopFrames: 3
