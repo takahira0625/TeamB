@@ -13,9 +13,12 @@ public class EnemyHitFeedback : MonoBehaviour
     [Tooltip("発光の実体。未設定なら自身から自動取得")]
     [SerializeField] private WhiteFlash whiteFlash;
 
-    [Tooltip("被弾時の白の薄さ（0=変化なし, 1=完全に白）")]
+    [Tooltip("被弾時のフラッシュの強さ（0=変化なし, 1=完全にhitFlashColor）")]
     [Range(0f, 1f)]
     [SerializeField] private float hitFlashAmount = 0.25f;
+
+    [Tooltip("通常被弾の色。先端クリティカルの白と見分けるため暗めにする")]
+    [SerializeField] private Color hitFlashColor = new Color(0.15f, 0.15f, 0.15f, 1f);
 
     private int _previousHp;
 
@@ -34,8 +37,14 @@ public class EnemyHitFeedback : MonoBehaviour
             Debug.LogWarning($"[EnemyHitFeedback] {name} : WhiteFlash が見つかりません。", this);
             return;
         }
+    }
 
-        _previousHp = health.CurrentHp;
+    private void Start()
+    {
+        // 直前HPの初期化は Start() で行う。Awake だと Health.Awake(CurrentHp=maxHp) との
+        // 実行順が保証されず、EnemyHitFeedback.Awake が先に走ると _previousHp が 0 のままになり、
+        // 満タンからの初撃が発光しないため。全 Awake 完了後の Start なら CurrentHp が確定している。
+        if (health != null) _previousHp = health.CurrentHp;
     }
 
     private void OnEnable()
@@ -53,7 +62,7 @@ public class EnemyHitFeedback : MonoBehaviour
         // 回復（currentHp >= _previousHp）では発光しない
         if (currentHp < _previousHp && !whiteFlash.IsFlashing)
         {
-            whiteFlash.Flash(hitFlashAmount);
+            whiteFlash.Flash(hitFlashAmount, hitFlashColor);
         }
         _previousHp = currentHp;
     }

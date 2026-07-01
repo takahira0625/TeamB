@@ -65,13 +65,22 @@ public class WhiteFlash : MonoBehaviour
     /// </summary>
     public void Flash()
     {
-        Flash(flashAmount);
+        Flash(flashAmount, flashColor);
     }
 
     /// <summary>
-    /// 強さを指定して発光。EnemyHitFeedback が被弾時に 0.25 で呼ぶ。
+    /// 強さを指定して発光。色は既定(flashColor)。
     /// </summary>
     public void Flash(float amount)
+    {
+        Flash(amount, flashColor);
+    }
+
+    /// <summary>
+    /// 強さと色を指定して発光。EnemyHitFeedback が通常被弾を暗い色で呼び、
+    /// 先端クリティカル(白)と見分けられるようにするために使う。
+    /// </summary>
+    public void Flash(float amount, Color color)
     {
         if (spriteRenderer == null || flashMaterial == null) return;
 
@@ -80,6 +89,8 @@ public class WhiteFlash : MonoBehaviour
             StopCoroutine(flashRoutine);
             Restore();
         }
+        // 呼び出しごとに色を設定する(前回の色が残らないように)
+        flashMaterial.SetColor(FlashColorId, color);
         flashRoutine = StartCoroutine(FlashRoutine(amount));
     }
 
