@@ -32,6 +32,10 @@ public class SwordParams : ScriptableObject
     [Tooltip("構えに戻すのにかける時間(秒)")]
     public float returnDuration = 0.18f;
 
+    [Header("構え (チャージ中の振りかぶり)")]
+    [Tooltip("チャージ最大時に剣を持ち上げる角度。startAngleより大きくすると振りかぶって見える")]
+    public float chargeAngle = 80f;
+
     [Header("チャージ段階 (弱 → 中 → 最大)")]
     public ChargeStage[] stages =
     {
@@ -60,4 +64,16 @@ public class SwordParams : ScriptableObject
     public int[] stopFramesPerStage = { 2, 5, 10 };
     [Tooltip("先端ヒット時に停止フレームへかける倍率(目安 1.5〜2.0)")]
     public float tipperStopMul = 1.8f;
+
+    [Header("処理落ち対策")]
+    [Tooltip("1フレームで進める物理時間の上限(秒)。重いフレームでも振りが1コマに圧縮されず弧が見える。小さいほど安定")]
+    public float maxFrameStep = 0.03f;
+
+    [Header("軌跡 (トレイル)")]
+    [Tooltip("軌跡が残る時間(秒)")]
+    public float trailTime = 0.12f;
+    [Tooltip("軌跡の根元側の太さ")]
+    public float trailStartWidth = 0.25f;
+    [Tooltip("軌跡の先端側の太さ")]
+    public float trailEndWidth = 0f;
 }

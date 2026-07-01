@@ -37,11 +37,9 @@ public class PlayerChargeAnimator : MonoBehaviour
     [Tooltip("SwordParamsのstagesと同じ数・同じ並び順にする")]
     [SerializeField] private ChargeStageSprites[] stages;
 
-    [Header("再生速度")]
-    [Tooltip("ループ画像を1秒あたり何枚切り替えるか")]
-    [SerializeField] private float framesPerSecond = 8f;
-    [Tooltip("intro画像を表示しておく秒数")]
-    [SerializeField] private float introDuration = 0.1f;
+    [Header("調整値")]
+    [Tooltip("調整値をまとめたPlayerParamsアセット（再生速度・intro表示時間）")]
+    [SerializeField] private PlayerParams param;
 
     // 今チャージアニメを再生中か(=Animatorを止めて上書きしている状態か)
     private bool isPlayingCharge;
@@ -83,8 +81,8 @@ public class PlayerChargeAnimator : MonoBehaviour
     /// <summary>指定段階のチャージアニメを進める。</summary>
     private void PlayChargeForLevel(int level)
     {
-        // 段階データが無い/範囲外なら何もしない(配線ミス対策)
-        if (stages == null || level < 0 || level >= stages.Length)
+        // 段階データ/調整値が無い/範囲外なら何もしない(配線ミス対策)
+        if (param == null || stages == null || level < 0 || level >= stages.Length)
         {
             return;
         }
@@ -116,7 +114,7 @@ public class PlayerChargeAnimator : MonoBehaviour
         {
             bodyRenderer.sprite = data.intro;
         }
-        nextFrameTime = Time.time + introDuration;
+        nextFrameTime = Time.time + param.chargeAnimIntroDuration;
     }
 
     /// <summary>ループ画像を1コマ進める(introの次は必ずloopの先頭から)。</summary>
@@ -144,7 +142,7 @@ public class PlayerChargeAnimator : MonoBehaviour
         }
 
         // 0以下が入っても固まらないよう保険
-        float interval = framesPerSecond > 0f ? 1f / framesPerSecond : 0.1f;
+        float interval = param.chargeAnimFramesPerSecond > 0f ? 1f / param.chargeAnimFramesPerSecond : 0.1f;
         nextFrameTime = Time.time + interval;
     }
 

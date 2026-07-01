@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public class EnemyContactDamage : MonoBehaviour
 {
-    // 接触1回あたりのダメージ量（Inspectorで調整）
-    [SerializeField] private int contactDamage = 10;
+    // 調整値をまとめたEnemyParamsアセット（接触ダメージ量）
+    [SerializeField] private EnemyParams param;
 
     // プレイヤーの当たり判定（ハートボックス）がこの敵のトリガーに入った瞬間に呼ばれる
     private void OnTriggerEnter2D(Collider2D other)
@@ -17,11 +17,13 @@ public class EnemyContactDamage : MonoBehaviour
         // ※物理コールバックは enabled を無視して呼ばれるため、この行で明示的に止める
         if (!enabled) return;
 
+        if (param == null) return;
+
         if (!other.CompareTag("Player")) return;
 
         var health = other.GetComponentInParent<Health>();
         if (health == null) return;
 
-        health.TakeDamage(contactDamage);
+        health.TakeDamage(param.contactDamage);
     }
 }

@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7441564133845714037
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 474793541115777873, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_Name
+      value: PF_MetalEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 678175639893016656, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777777777777777777, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: maxHp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777777777777777777, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      propertyPath: param
+      value: 
+      objectReference: {fileID: 11400000, guid: 6dac6853c224110408772881530e34e1, type: 2}
+    m_RemovedComponents:
+    - {fileID: 6666666666666666666, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 474793541115777873, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6065872182509719594}
+    - targetCorrespondingSourceObject: {fileID: 474793541115777873, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9055459108338563152}
+  m_SourcePrefab: {fileID: 100100000, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+--- !u!1 &7049102167460960036 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 474793541115777873, guid: 830296e470f7c3c4f99417efbb6cfff2, type: 3}
+  m_PrefabInstance: {fileID: 7441564133845714037}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6065872182509719594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7049102167460960036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8821616af51bc4c298be1a1200141198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MetalArmor
+--- !u!114 &9055459108338563152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7049102167460960036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b92e72ee9a634485cb30ba02b60ce5f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDropper
+  dropPrefab: {fileID: 7897543584168156078, guid: 6df8860b838bb4882832601a372e5ba1, type: 3}
+  dropOffset: {x: 0, y: 0}

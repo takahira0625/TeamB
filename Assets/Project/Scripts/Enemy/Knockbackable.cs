@@ -1,19 +1,18 @@
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// ぶっ飛ばしを受けて適用する。単一責任=「与えられた力で自分を弾く」。
+/// ぶっ飛ばしを受けて適用する。単一責任=「与えられた力で自分を弾き、着地まで前進を止める」。
 /// 敵に付ける。Dynamicな Rigidbody2D が必要。
-/// 弾かれている間は一定時間（スタン）EnemyMovementを止め、
-/// 前進が物理の勢いを打ち消して「弾かれ感」が濁るのを防ぐ。
+/// 弾かれている間はEnemyMovementを止め、地面に着いたら前進を再開する。
+/// 前進(transform移動)が物理の勢いを打ち消して放物線が濁るのを防ぐため。
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public class Knockbackable : MonoBehaviour
 {
-    // 弾かれてから前進を再開するまでの秒数（手応えの調整軸。目安0.2〜0.4）
-    [SerializeField] private float stunDuration = 0.3f;
+    // 着地を判定する地面のレイヤー(Ground)。Inspectorで設定する
+    [SerializeField] private LayerMask groundLayer;
 
-    // スタン中に前進を止める相手。未設定なら同じオブジェクトから自動取得
+    // 着地で前進を再開する相手。未設定なら同じオブジェクトから自動取得
     [SerializeField] private EnemyMovement enemyMovement;
 
     // 撃破済みか判定するためのHP。未設定なら同じオブジェクトから自動取得
@@ -21,8 +20,8 @@ public class Knockbackable : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    // 進行中のスタンコルーチン。連続ヒット時にタイマーをリセットするため保持する
-    private Coroutine stunCoroutine;
+    // 弾かれて空中にいる間はtrue。着地でfalseに戻す
+    private bool isKnockedBack;
 
     private void Awake()
     {
@@ -40,7 +39,7 @@ public class Knockbackable : MonoBehaviour
         }
     }
 
-    /// <summary>力(向き×強さ)を受けて弾かれ、スタンを開始する。</summary>
+    /// <summary>力(向き×強さ)を受けて弾かれ、着地するまで前進を止める。</summary>
     public void ApplyKnockback(Vector2 force)
     {
         // 既存の速度を消してから与えると挙動が安定する
@@ -48,37 +47,44 @@ public class Knockbackable : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(force, ForceMode2D.Impulse);
 
-        // 弾かれている間だけ前進を止める
-        StartStun();
+        // 弾かれている間は前進を止める(着地まで)
+        if (enemyMovement != null)
+        {
+            enemyMovement.enabled = false;
+        }
+        isKnockedBack = true;
     }
 
-    /// <summary>前進を止め、stunDuration後に再開するスタンを開始する。</summary>
-    private void StartStun()
+    // 何かに触れた瞬間に呼ばれる。地面に着いたら前進を再開する
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (enemyMovement == null) return;
-
-        // 連続ヒット：進行中のスタンを止めてからタイマーを引き直す
-        if (stunCoroutine != null)
+        // 弾かれ中でなければ無視(普通に地面を歩いているときなど)
+        if (!isKnockedBack)
         {
-            StopCoroutine(stunCoroutine);
+            return;
         }
 
-        enemyMovement.enabled = false;
-        stunCoroutine = StartCoroutine(StunRoutine());
-    }
+        // 触れた相手が地面レイヤーかを調べる
+        // (1 << レイヤー番号) でそのレイヤーだけ1のビットを作り、groundLayerと重なれば地面
+        int otherLayer = collision.gameObject.layer;
+        bool isGround = (groundLayer.value & (1 << otherLayer)) != 0;
+        if (!isGround)
+        {
+            return;
+        }
 
-    private IEnumerator StunRoutine()
-    {
-        yield return new WaitForSeconds(stunDuration);
+        // 着地した
+        isKnockedBack = false;
 
         // 撃破済み(HP0)なら前進を復活させない。死んだ敵が動き出すのを防ぐ
         if (health != null && health.IsDead)
         {
-            stunCoroutine = null;
-            yield break;
+            return;
         }
 
-        enemyMovement.enabled = true;
-        stunCoroutine = null;
+        if (enemyMovement != null)
+        {
+            enemyMovement.enabled = true;
+        }
     }
 }

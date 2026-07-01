@@ -9,14 +9,9 @@ public class BladeTrail : MonoBehaviour
     [SerializeField]
     private TrailRenderer trailRenderer;
 
+    // 軌跡の時間・太さをまとめたSwordParamsアセット(剣スクリプトと同じものを割り当てる)
     [SerializeField]
-    private float trailTime = 0.12f;
-
-    [SerializeField]
-    private float startWidth = 0.25f;
-
-    [SerializeField]
-    private float endWidth = 0.0f;
+    private SwordParams param;
 
     private bool wasAttacking;
 
@@ -58,14 +53,14 @@ public class BladeTrail : MonoBehaviour
 
     private void ApplyTrailSettings()
     {
-        if (trailRenderer == null)
+        if (trailRenderer == null || param == null)
         {
             return;
         }
 
-        trailRenderer.time = trailTime;
-        trailRenderer.startWidth = startWidth;
-        trailRenderer.endWidth = endWidth;
+        trailRenderer.time = param.trailTime;
+        trailRenderer.startWidth = param.trailStartWidth;
+        trailRenderer.endWidth = param.trailEndWidth;
     }
 
     private void SetTrailVisible(bool isAttacking, bool forceClear)

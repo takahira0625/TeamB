@@ -13,9 +13,9 @@ public class PlayerMaxChargeBlink : MonoBehaviour
     [Tooltip("プレイヤーを白くするWhiteFlash")]
     [SerializeField] private WhiteFlash whiteFlash;
 
-    [Header("点滅")]
-    [Tooltip("白く光らせる間隔(秒)。WhiteFlashのflashDurationより大きくすると点滅になる")]
-    [SerializeField] private float blinkInterval = 0.16f;
+    [Header("調整値")]
+    [Tooltip("調整値をまとめたPlayerParamsアセット（点滅間隔）")]
+    [SerializeField] private PlayerParams param;
 
     private float timer;
 
@@ -34,7 +34,7 @@ public class PlayerMaxChargeBlink : MonoBehaviour
     private void Update()
     {
         // 最大ため中でなければ点滅しない(タイマーもリセット)
-        if (swordCharge == null || !swordCharge.IsMaxCharged)
+        if (param == null || swordCharge == null || !swordCharge.IsMaxCharged)
         {
             timer = 0f;
             return;
@@ -42,7 +42,7 @@ public class PlayerMaxChargeBlink : MonoBehaviour
 
         // 最大ための間、一定間隔でWhiteFlashを1回ずつ呼んで点滅させる
         timer += Time.deltaTime;
-        if (timer >= blinkInterval)
+        if (timer >= param.maxChargeBlinkInterval)
         {
             timer = 0f;
             if (whiteFlash != null)

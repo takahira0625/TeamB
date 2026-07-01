@@ -9,11 +9,9 @@ public class PlayerInvincibility : MonoBehaviour
     [SerializeField]
     private SpriteRenderer targetSpriteRenderer;
 
+    // 調整値をまとめたPlayerParamsアセット（無敵時間・点滅間隔）
     [SerializeField]
-    private float invincibleDuration = 1.5f;
-
-    [SerializeField]
-    private float blinkInterval = 0.1f;
+    private PlayerParams param;
 
     public bool IsInvincible { get; private set; }
 
@@ -92,6 +90,11 @@ public class PlayerInvincibility : MonoBehaviour
 
     private void StartInvincibility()
     {
+        if (param == null)
+        {
+            return;
+        }
+
         if (invincibleCoroutine != null)
         {
             StopCoroutine(invincibleCoroutine);
@@ -106,16 +109,16 @@ public class PlayerInvincibility : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        while (elapsedTime < invincibleDuration)
+        while (elapsedTime < param.invincibleDuration)
         {
             if (targetSpriteRenderer != null)
             {
                 targetSpriteRenderer.enabled = !targetSpriteRenderer.enabled;
             }
 
-            yield return new WaitForSeconds(blinkInterval);
+            yield return new WaitForSeconds(param.invincibleBlinkInterval);
 
-            elapsedTime += blinkInterval;
+            elapsedTime += param.invincibleBlinkInterval;
         }
 
         IsInvincible = false;

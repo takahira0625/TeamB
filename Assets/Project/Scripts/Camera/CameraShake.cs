@@ -14,20 +14,8 @@ public class CameraShake : MonoBehaviour
     [Header("参照")]
     [Tooltip("ヒット通知の発火元。未指定ならシーンから自動取得")]
     [SerializeField] private SwordHitbox hitbox;
-
-    [Header("揺れ幅(チャージ段階別)")]
-    [Tooltip("段階ごとの揺れ幅。配列の添字=チャージ段階(0始まり)")]
-    [SerializeField] private float[] amplitudeByLevel = { 0.05f, 0.1f, 0.2f };
-    [Tooltip("段階が配列範囲外/取れない時に使う基準の揺れ幅")]
-    [SerializeField] private float defaultAmplitude = 0.1f;
-
-    [Header("揺れの質")]
-    [Tooltip("1回の揺れの長さ(秒)")]
-    [SerializeField] private float duration = 0.15f;
-    [Tooltip("減衰の効き具合。大きいほど早く収まる(1で線形)")]
-    [SerializeField] private float damping = 1.0f;
-    [Tooltip("揺れの細かさ。大きいほど小刻みに震える")]
-    [SerializeField] private float frequency = 25f;
+    [Tooltip("調整値をまとめたCameraParamsアセット")]
+    [SerializeField] private CameraParams param;
 
     private Vector3 baseLocalPosition;  // 揺れの基準にする最初のローカル位置(z=-10等を保持)
     private float currentAmplitude;     // 今回の揺れの初期振幅
@@ -81,11 +69,16 @@ public class CameraShake : MonoBehaviour
     /// <summary>チャージ段階を指定して揺れを開始する。amplitudeByLevel から揺れ幅を引く。</summary>
     public void Shake(int level)
     {
+        if (param == null)
+        {
+            return;
+        }
+
         // 段階に対応する揺れ幅を取る。範囲外なら基準幅でフォールバック。
-        bool hasPerLevel = amplitudeByLevel != null
+        bool hasPerLevel = param.amplitudeByLevel != null
                            && level >= 0
-                           && level < amplitudeByLevel.Length;
-        currentAmplitude = hasPerLevel ? amplitudeByLevel[level] : defaultAmplitude;
+                           && level < param.amplitudeByLevel.Length;
+        currentAmplitude = hasPerLevel ? param.amplitudeByLevel[level] : param.defaultAmplitude;
 
         elapsed = 0f;
         isShaking = true;
@@ -101,7 +94,7 @@ public class CameraShake : MonoBehaviour
         elapsed += Time.deltaTime;
 
         // 終了：基準位置へ戻して終わる
-        if (elapsed >= duration || duration <= 0f)
+        if (elapsed >= param.shakeDuration || param.shakeDuration <= 0f)
         {
             transform.localPosition = baseLocalPosition;
             isShaking = false;
@@ -109,12 +102,12 @@ public class CameraShake : MonoBehaviour
         }
 
         // 経過に応じて振幅を減衰させる(1→0)。dampingで効き具合を変える。
-        float fade = 1f - (elapsed / duration);
-        fade = Mathf.Pow(fade, damping);
+        float fade = 1f - (elapsed / param.shakeDuration);
+        fade = Mathf.Pow(fade, param.shakeDamping);
         float amplitude = currentAmplitude * fade;
 
         // PerlinNoiseで-1〜1の揺れを作る(滑らかにブレる)。xとyは別シードで独立させる。
-        float time = elapsed * frequency;
+        float time = elapsed * param.shakeFrequency;
         float offsetX = (Mathf.PerlinNoise(NoiseSeedX, time) * 2f) - 1f;
         float offsetY = (Mathf.PerlinNoise(NoiseSeedY, time) * 2f) - 1f;
 

@@ -11,8 +11,8 @@ public class ChargeBar : MonoBehaviour
     [SerializeField] private SwordCharge source;
     [Tooltip("塗り量を変えるゲージ本体。未設定なら子から自動取得")]
     [SerializeField] private Image fillImage;
-    [Tooltip("CurrentLevel(段階)ごとの色。要素数が段階数より少ない場合は末尾の色を使い回す")]
-    [SerializeField] private Color[] stageColors = { Color.white, Color.yellow, Color.red };
+    [Tooltip("段階色などをまとめたPlayerParamsアセット")]
+    [SerializeField] private PlayerParams param;
 
     private void Awake()
     {
@@ -49,9 +49,9 @@ public class ChargeBar : MonoBehaviour
 
     private Color GetStageColor(int level)
     {
-        if (stageColors == null || stageColors.Length == 0) return Color.white;
+        if (param == null || param.chargeStageColors == null || param.chargeStageColors.Length == 0) return Color.white;
 
-        int index = Mathf.Clamp(level, 0, stageColors.Length - 1);
-        return stageColors[index];
+        int index = Mathf.Clamp(level, 0, param.chargeStageColors.Length - 1);
+        return param.chargeStageColors[index];
     }
 }

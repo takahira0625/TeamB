@@ -11,7 +11,8 @@ public class GameOverController : MonoBehaviour
 
     [SerializeField] private SwordCharge swordCharge;
 
-    [SerializeField] private float delaySeconds = 0.7f;
+    // 調整値をまとめたPlayerParamsアセット（ゲームオーバー遷移までの待ち時間）
+    [SerializeField] private PlayerParams param;
 
     // 二重遷移の保険（OnDiedは1回だけだが念のため）
     private bool isGameOver;
@@ -79,6 +80,9 @@ public class GameOverController : MonoBehaviour
 
     private IEnumerator GoToGameOver()
     {
+        // 死亡処理は必ず遷移させたいので、PlayerParams未割当でも保険値(0.7秒)で続行する
+        float delaySeconds = param != null ? param.gameOverDelaySeconds : 0.7f;
+
         // 実時間で待つ。万一ヒットストップでtimeScaleが0付近でも待ち時間が伸びない
         yield return new WaitForSecondsRealtime(delaySeconds);
 
