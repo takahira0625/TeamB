@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;  // シーン遷移を使うために追加
 // ボタンが押されたらゲームのシーンに戻すスクリプト
 public class SceneController : MonoBehaviour
 {
+    public GameObject pauseUI;
+
     // ボタンから呼び出すための関数
     public void LoadGameScene()
     {
@@ -31,5 +33,11 @@ public class SceneController : MonoBehaviour
         // ゲームオーバーシーンを読み込む
         Time.timeScale = 1;
         SceneManager.LoadScene("GameOverScene");
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        pauseUI.SetActive(false);
     }
 }
