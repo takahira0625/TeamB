@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6df00c2c66ddd84b92deb980ba3b239, type: 3}
   m_Name: SwordParams
   m_EditorClassIdentifier: Assembly-CSharp::SwordParams
-  startAngle: 60
+  startAngle: 20
   endAngle: -120
   swingDuration: 0.12
   returnDuration: 0.18
-  chargeAngle: 120
+  chargeAngle: 40
   stages:
   - chargeTime: 0
     reach: 1
