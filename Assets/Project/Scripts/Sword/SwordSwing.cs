@@ -13,6 +13,7 @@ public class SwordSwing : MonoBehaviour
     [Header("参照")]
     [Tooltip("調整値をまとめたSwordParamsアセット")]
     [SerializeField] private SwordParams param;
+
     [Tooltip("剣のスプライト。未指定なら子から自動取得する")]
     [SerializeField] private SpriteRenderer swordSprite;
 
@@ -24,6 +25,9 @@ public class SwordSwing : MonoBehaviour
     private Vector3 baseScale;
     private Rigidbody2D rb;
 
+    // 今向いている角度。チャージで振りかぶった角度から振り下ろすために使う
+    private float currentAngle;
+
     /// <summary>振り(攻撃判定が有効な区間)中ならtrue。SwordHitboxが参照する。</summary>
     public bool IsAttacking { get; private set; }
 
@@ -32,20 +36,14 @@ public class SwordSwing : MonoBehaviour
 
     private void Awake()
     {
-        // 未指定なら子の剣スプライトを自動で拾う
         if (swordSprite == null)
         {
             swordSprite = GetComponentInChildren<SpriteRenderer>();
         }
-        baseScale = transform.localScale;   // リーチ1.0の基準サイズを記録
+
+        baseScale = transform.localScale;
         rb = GetComponent<Rigidbody2D>();
 
-        // 初回の振りなどでフレームが大きく処理落ちすると、物理(FixedUpdate)が遅れを
-        // まとめて取り戻すため、振りの複数ステップが1コマに圧縮されて「弧でなく振り払い」に
-        // 見える。1フレームで進める物理時間に上限を設けることで、重いフレームでも
-        // 振りが複数コマに分かれて弧として見えるようにする。
-        // ※Time.maximumDeltaTimeはゲーム全体に効くグローバル設定。代償として、極端に重い
-        //   フレームではゲーム全体が一瞬だけスローになる(単発ならほぼ気付かない)。
         if (Time.maximumDeltaTime > maxFrameStep)
         {
             Time.maximumDeltaTime = maxFrameStep;
@@ -54,16 +52,41 @@ public class SwordSwing : MonoBehaviour
 
     private void Start()
     {
-        SetAngle(param.startAngle);   // 最初は構えの角度で待機
-        SetVisible(false);            // 通常時は剣を隠す
+        SetAngle(param.startAngle);
+        SetVisible(false);
     }
 
     /// <summary>リーチ(剣の長さの倍率)を設定する。1.0で基準の長さ。</summary>
     public void SetReach(float lengthMul)
     {
-        // 握りを起点に長さ方向(ローカルY)だけ伸ばす
-        // ※剣が横長で伸び方がおかしいときは baseScale.y → baseScale.x 側に変える
         transform.localScale = new Vector3(baseScale.x, baseScale.y * lengthMul, baseScale.z);
+    }
+
+    /// <summary>
+    /// チャージ中の構え（振りかぶり）を見せる。SwordChargeが毎フレーム呼ぶ。
+    /// t01: チャージの進み具合(0〜1)。0で通常の構え、1で最大の振りかぶり。
+    /// </summary>
+    public void ShowChargePose(float t01)
+    {
+        if (isSwinging)
+        {
+            return;
+        }
+
+        if (param == null)
+        {
+            return;
+        }
+
+        SetVisible(true);
+
+        float angle = Mathf.Lerp(
+            param.startAngle,
+            param.chargeAngle,
+            Mathf.Clamp01(t01)
+        );
+
+        SetAngle(angle);
     }
 
     /// <summary>外から振らせる。動作中は無視。</summary>
@@ -78,31 +101,46 @@ public class SwordSwing : MonoBehaviour
     private IEnumerator SwingRoutine()
     {
         isSwinging = true;
-        IsAttacking = true;                                        // 攻撃判定オン
-        SetVisible(true);                                          // 振りの間だけ表示
-        yield return Rotate(param.startAngle, param.endAngle, param.swingDuration);   // 振り(速い)
-        IsAttacking = false;                                       // 攻撃判定オフ
-        SetVisible(false);                                         // 振り終わりで隠す
-        yield return Rotate(param.endAngle, param.startAngle, param.returnDuration);  // 戻し
+
+        IsAttacking = true;
+        SetVisible(true);
+
+        // チャージで振りかぶった角度から、そのまま振り下ろす
+        yield return Rotate(currentAngle, param.endAngle, param.swingDuration);
+
+        IsAttacking = false;
+        SetVisible(false);
+
+        yield return Rotate(param.endAngle, param.startAngle, param.returnDuration);
+
+        SetAngle(param.startAngle);
         isSwinging = false;
     }
 
     private IEnumerator Rotate(float from, float to, float duration)
     {
         float t = 0f;
+
         while (t < duration)
         {
             t += Time.fixedDeltaTime;
             float k = Mathf.Clamp01(t / duration);
-            // 物理で回す。フレーム間の回転を物理が補間するのですり抜けない。
-            rb.MoveRotation(Mathf.Lerp(from, to, k));
+
+            float angle = Mathf.Lerp(from, to, k);
+            currentAngle = angle;
+
+            rb.MoveRotation(angle);
+
             yield return new WaitForFixedUpdate();
         }
+
+        currentAngle = to;
         rb.MoveRotation(to);
     }
 
     private void SetAngle(float z)
     {
+        currentAngle = z;
         transform.localRotation = Quaternion.Euler(0f, 0f, z);
     }
 

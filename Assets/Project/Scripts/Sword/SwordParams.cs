@@ -32,6 +32,10 @@ public class SwordParams : ScriptableObject
     [Tooltip("構えに戻すのにかける時間(秒)")]
     public float returnDuration = 0.18f;
 
+    [Header("構え（チャージ中の振りかぶり）")]
+    [Tooltip("チャージ最大時に剣を持ち上げる角度。startAngleより少し大きくすると振りかぶって見える")]
+    public float chargeAngle = 80f;
+
     [Header("チャージ段階 (弱 → 中 → 最大)")]
     public ChargeStage[] stages =
     {
