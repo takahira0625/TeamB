@@ -22,6 +22,7 @@ public class GoalTrigger : MonoBehaviour
         {
             // ゴールフラグをtrueにしてロックする
             isGoalReached = true;
+            Time.timeScale = 0f;
 
             // フェードアウト
             if (screenFader != null)
