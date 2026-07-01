@@ -23,30 +23,36 @@ public class SwordCharge : MonoBehaviour
     public int CurrentLevel { get; private set; }
 
     /// <summary>
-    /// 現在のチャージ段階内での進捗(0〜1)。チャージバーをなめらかに伸ばすための読み取り専用値。
-    /// 非チャージ中は0、最大段階まで溜まっていれば1を返す。値は変化させず計算して返すだけ。
+    /// 押し始めから最大チャージまでを0〜1で返す連続ゲージ用の値。
+    /// 段階でリセットせず、最後の段階の到達時間を満タン(1)とみなす。
     /// </summary>
     public float ChargeProgress01
     {
         get
         {
-            // チャージしていない、またはparam未設定なら進捗なし
             if (!isCharging || param == null || param.stages.Length == 0)
             {
                 return 0f;
             }
-
-            // 最大段階まで溜まっていれば、これ以上の区間はないので1
-            int maxIndex = param.stages.Length - 1;
-            if (CurrentLevel >= maxIndex)
+            float maxTime = param.stages[param.stages.Length - 1].chargeTime;
+            if (maxTime <= 0f)
             {
                 return 1f;
             }
+            return Mathf.Clamp01(chargeTimer / maxTime);
+        }
+    }
 
-            // 現在段階の到達時間〜次段階の到達時間を 0〜1 に正規化して返す
-            float current = param.stages[CurrentLevel].chargeTime;
-            float next = param.stages[CurrentLevel + 1].chargeTime;
-            return Mathf.InverseLerp(current, next, chargeTimer);
+    /// <summary>最大段階まで溜まっているか。最大ため演出(プレイヤー点滅など)が参照する。</summary>
+    public bool IsMaxCharged
+    {
+        get
+        {
+            if (!isCharging || param == null || param.stages.Length == 0)
+            {
+                return false;
+            }
+            return CurrentLevel >= param.stages.Length - 1;
         }
     }
 
@@ -64,7 +70,6 @@ public class SwordCharge : MonoBehaviour
 
     private void Update()
     {
-        // 振り(構え戻し含む)が終わるまでは新しいチャージを始めない
         if (swing != null && swing.IsSwinging)
         {
             isCharging = false;
@@ -93,11 +98,9 @@ public class SwordCharge : MonoBehaviour
     {
         isCharging = false;
 
-        // 段階を1回だけ判定して使い回す
         int level = EvaluateLevel(chargeTimer);
         var stage = param.stages[level];
 
-        // 段階に応じて各担当へ値を渡してから振らせる
         if (swing != null)
         {
             swing.SetReach(stage.reach);
@@ -105,7 +108,7 @@ public class SwordCharge : MonoBehaviour
         if (hitbox != null)
         {
             hitbox.SetKnockback(stage.knockback);
-            hitbox.SetChargeStage(level);   // ← stage と必ず同じ段階になる
+            hitbox.SetChargeStage(level);
         }
         if (swing != null)
         {
