@@ -365,5 +365,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHitFeedback
   health: {fileID: 7777777777777777777}
   whiteFlash: {fileID: 885214450810800653}
-  hitFlashAmount: 0.25
+  hitFlashAmount: 0.5
   hitFlashColor: {r: 0.15, g: 0.15, b: 0.15, a: 1}
