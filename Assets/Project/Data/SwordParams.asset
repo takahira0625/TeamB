@@ -20,7 +20,7 @@ MonoBehaviour:
   stages:
   - chargeTime: 0
     reach: 1
-    knockback: 3
+    knockback: 2
     damage: 5
   - chargeTime: 0.4
     reach: 1.4
