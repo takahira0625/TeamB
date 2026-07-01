@@ -30,7 +30,7 @@ MonoBehaviour:
     reach: 1.9
     knockback: 14
     damage: 30
-  upwardBias: 1
+  upwardBias: 0.9
   tipperRatio: 0.8
   tipperKnockbackMul: 1.8
   tipperDamageMul: 2

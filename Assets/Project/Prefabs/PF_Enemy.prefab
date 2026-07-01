@@ -116,7 +116,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -199,7 +199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72968edbfc00a554eb11d161cc6881ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Knockbackable
-  param: {fileID: 11400000, guid: f9951a6a62421a446b13f899c3bd89f1, type: 2}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
   enemyMovement: {fileID: 0}
   health: {fileID: 0}
 --- !u!114 &7777777777777777777
