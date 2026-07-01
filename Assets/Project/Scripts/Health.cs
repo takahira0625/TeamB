@@ -8,10 +8,15 @@ using UnityEngine;
 /// </summary>
 public class Health : MonoBehaviour
 {
-    [SerializeField] private int maxHp = 100;
+    // 未割り当て時の保険値(HealthParams未設定でも即死しないように)
+    private const int DefaultMaxHp = 100;
+
+    [Tooltip("最大HPをまとめたHealthParamsアセット。個体ごとに別アセットを割り当てる(Player/Enemy/Metal等)")]
+    [SerializeField] private HealthParams param;
 
     public int CurrentHp { get; private set; }
-    public int MaxHp => maxHp;
+    // HealthParams未割り当て時は保険値(DefaultMaxHp)を返す
+    public int MaxHp => param != null ? param.maxHp : DefaultMaxHp;
     public bool IsDead => CurrentHp <= 0;
 
     /// <summary>HPが変化したとき発火する。引数:(現在HP, 最大HP)</summary>
@@ -22,7 +27,7 @@ public class Health : MonoBehaviour
 
     private void Awake()
     {
-        CurrentHp = maxHp;
+        CurrentHp = MaxHp;
     }
 
     /// <summary>ダメージを受ける。HPは0未満にならない。死亡時はOnDiedを1度だけ発火する。</summary>
@@ -30,9 +35,9 @@ public class Health : MonoBehaviour
     {
         if (IsDead) return;
 
-        CurrentHp = Mathf.Clamp(CurrentHp - amount, 0, maxHp);
-        Debug.Log($"[Health] {gameObject.name} HP: {CurrentHp}/{maxHp}");
-        OnHpChanged?.Invoke(CurrentHp, maxHp);
+        CurrentHp = Mathf.Clamp(CurrentHp - amount, 0, MaxHp);
+        Debug.Log($"[Health] {gameObject.name} HP: {CurrentHp}/{MaxHp}");
+        OnHpChanged?.Invoke(CurrentHp, MaxHp);
 
         if (IsDead)
         {
@@ -46,7 +51,7 @@ public class Health : MonoBehaviour
     {
         if (IsDead) return;
 
-        CurrentHp = Mathf.Clamp(CurrentHp + amount, 0, maxHp);
-        OnHpChanged?.Invoke(CurrentHp, maxHp);
+        CurrentHp = Mathf.Clamp(CurrentHp + amount, 0, MaxHp);
+        OnHpChanged?.Invoke(CurrentHp, MaxHp);
     }
 }
