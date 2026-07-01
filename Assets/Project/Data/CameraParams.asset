@@ -16,10 +16,10 @@ MonoBehaviour:
   amplitudeByLevel:
   - 0.05
   - 0.1
-  - 0.2
+  - 0.8
   defaultAmplitude: 0.1
-  shakeDuration: 0.15
-  shakeDamping: 1
-  shakeFrequency: 25
+  shakeDuration: 0.2
+  shakeDamping: 1.5
+  shakeFrequency: 32
   leftOffsetFromCenter: 0.1
   edgePadding: 0
